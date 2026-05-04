@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# INNO Starck
+
+A modern company website built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS**.
+
+The project uses the Next.js App Router structure and includes reusable UI components, page sections, SEO metadata, global styling, and a privacy policy route.
+
+## Tech Stack
+
+- **Next.js** 16.2.4
+- **React** 19.2.4
+- **TypeScript**
+- **Tailwind CSS** 4
+- **ESLint**
+- **lucide-react** for icons
+
+## Project Structure
+
+### Key directories
+
+- `app/page.tsx` — main landing page.
+- `app/layout.tsx` — root layout and global metadata setup.
+- `app/components/sections/` — landing page sections.
+- `app/components/ui/` — reusable interface components.
+- `app/components/SEO/` — SEO metadata configuration.
+- `app/hooks/` — custom React hooks.
+- `app/privacyPolicy/` — privacy policy page.
+- `public/` — static assets.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Make sure you have Node.js installed.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This project includes both `package-lock.json` and `pnpm-lock.yaml`, but the configured package manager for this project is **npm**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Install dependencies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Key directories
 
-## Learn More
+- `app/page.tsx` — main landing page.
+- `app/layout.tsx` — root layout and global metadata setup.
+- `app/components/sections/` — landing page sections.
+- `app/components/ui/` — reusable interface components.
+- `app/components/SEO/` — SEO metadata configuration.
+- `app/hooks/` — custom React hooks.
+- `app/privacyPolicy/` — privacy policy page.
+- `public/` — static assets.
 
-To learn more about Next.js, take a look at the following resources:
+## Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Make sure you have Node.js installed.
 
-## Deploy on Vercel
+This project includes both `package-lock.json` and `pnpm-lock.yaml`, but the configured package manager for this project is **npm**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Install dependencies
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Run the development server
+
+## Available Scripts
+
+## Available Scripts
+
+Starts the Next.js development server.
+
+Creates an optimized production build.
+Runs the production server after building the app.Runs ESLint checks.
+
+## Development Notes
+
+- The application uses the Next.js App Router under the `app/` directory.
+- Global styles are defined in `app/globals.css`.
+- SEO metadata is configured separately and exported into the root layout.
+- The main page is composed from section components for easier maintenance.
+- Custom hooks live in `app/hooks/`.
+
+## Deployment
+
+This project can be deployed to any platform that supports Next.js applications, such as:
+
+- Vercel
+- Netlify
+- Render
+- A Node.js server
+
+For a typical production deployment:## License
+
+This project is private. Add license details here if the project becomes public.## License
+
