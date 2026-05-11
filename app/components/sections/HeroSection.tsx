@@ -7,21 +7,21 @@ export function HeroSection() {
 
     const slides = [
         {
-            image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+            image: "globe.avif",
             subtitle: "Global Infrastructure",
             titleStart: "Precision for ",
             highlight: "Humanity.",
             titleEnd: "",
         },
         {
-            image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+            image: "infrastructure.avif",
             subtitle: "Enterprise Security",
             titleStart: "Engineering-Grade ",
             highlight: "Resilience.",
             titleEnd: "",
         },
         {
-            image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
+            image: "intelligent.avif",
             subtitle: "Intelligent Systems",
             titleStart: "Innovation for ",
             highlight: "Growth.",

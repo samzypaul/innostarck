@@ -56,4 +56,4 @@ export function useActiveSection(sectionIds: string[]): string {
 //         return () => window.removeEventListener('scroll', handleScroll);
 //     }, [sectionIds]);
 //
-//     return activeSectio
+//     return activeSection
