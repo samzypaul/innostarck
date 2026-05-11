@@ -32,7 +32,7 @@ export function PrivacyPolicy() {
 
                 <section>
                     <h2 className="text-2xl font-bold text-slate-900 mb-4">5. Contact Information</h2>
-                    <p>For questions regarding this policy or to exercise your data rights, contact our privacy compliance team at <a href="mailto:info@innostarck.com" className="text-blue-600 hover:underline">info@path9systems.com</a>.</p>
+                    <p>For questions regarding this policy or to exercise your data rights, contact our privacy compliance team at <a href="mailto:info@innostarck.com" className="text-blue-600 hover:underline">info@innostarck.com</a>.</p>
                 </section>
             </div>
         </div>

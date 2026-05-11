@@ -76,7 +76,7 @@ export function Footer() {
                     <p>&copy; {new Date().getFullYear()} InnoStarck. All rights reserved.</p>
                     <div className="flex gap-6 mt-4 md:mt-0">
                         <Link href="privacyPolicy" className="hover:text-white transition-colors">Privacy Policy</Link>
-                        <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+                        <a href="termsService" className="hover:text-white transition-colors">Terms of Service</a>
                     </div>
                 </div>
             </div>
