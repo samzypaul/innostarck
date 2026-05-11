@@ -7,7 +7,7 @@ export function PrivacyPolicy() {
             <div className="space-y-8 text-slate-700 leading-relaxed">
                 <section>
                     <h2 className="text-2xl font-bold text-slate-900 mb-4">1. Introduction</h2>
-                    <p>At Path 9 Systems ("we," "our," or "us"), we prioritize your privacy and data security with the same engineering rigor we apply to our systems. This Privacy Policy details how we collect, use, and safeguard your personal information and IoT-generated data when you interact with our website and enterprise architectures.</p>
+                    <p>At Inno Starck ("we," "our," or "us"), we prioritize your privacy and data security with the same engineering rigor we apply to our systems. This Privacy Policy details how we collect, use, and safeguard your personal information and IoT-generated data when you interact with our website and enterprise architectures.</p>
                 </section>
 
                 <section>
@@ -32,7 +32,7 @@ export function PrivacyPolicy() {
 
                 <section>
                     <h2 className="text-2xl font-bold text-slate-900 mb-4">5. Contact Information</h2>
-                    <p>For questions regarding this policy or to exercise your data rights, contact our privacy compliance team at <a href="mailto:info@path9systems.com" className="text-blue-600 hover:underline">info@path9systems.com</a>.</p>
+                    <p>For questions regarding this policy or to exercise your data rights, contact our privacy compliance team at <a href="mailto:info@innostarck.com" className="text-blue-600 hover:underline">info@path9systems.com</a>.</p>
                 </section>
             </div>
         </div>
