@@ -1,0 +1,30 @@
+{
+  "name": "innostarck",
+  "version": "1.0.0",
+  "private": true,
+  "description": "InnoStarck — engineering-led technology firm. Marketing website.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "next": "15.1.6",
+    "nodemailer": "6.9.16",
+    "react": "19.0.0",
+    "react-dom": "19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.7",
+    "@types/nodemailer": "6.4.17",
+    "@types/react": "19.0.7",
+    "@types/react-dom": "19.0.3",
+    "@vitest/coverage-v8": "2.1.8",
+    "typescript": "5.7.3",
+    "vitest": "2.1.8"
+  }
+}

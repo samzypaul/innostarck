@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit & integration tests
+        run: npm run test
+
+      - name: Production build
+        run: npm run build
+        env:
+          # Build must not depend on real secrets; provide dummies so any
+          # build-time env reads resolve. Real keys live in deployment secrets.
+          GROQ_API_KEY: dummy
+          GOOGLE_GENERATIVE_AI_API_KEY: dummy
