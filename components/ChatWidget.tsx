@@ -23,8 +23,11 @@ const GREETING: ChatMessage = {
 
 const SUGGESTIONS = ["Explore services", "Get a quote", "Talk to a human"];
 
-// How long after the visitor's last message before we auto-send the transcript.
-const AUTO_SEND_IDLE_MS = 25_000;
+// Inactivity handling: after this long with no interaction the assistant warns
+// the visitor; if they don't respond within the countdown, it ends the chat and
+// sends the transcript. "I'm still here" cancels and resets the timer.
+const INACTIVITY_WARN_MS = 30_000;
+const TERMINATE_COUNTDOWN_S = 15;
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -34,6 +37,11 @@ export default function ChatWidget() {
   const [lead, setLead] = useState<CollectedLead>(emptyLead);
   const [options, setOptions] = useState<string[]>([]);
   const [handoff, setHandoff] = useState<{ whatsappUrl: string; emailed: boolean } | null>(null);
+
+  // Inactivity → warning → termination flow
+  const [warning, setWarning] = useState(false);
+  const [countdown, setCountdown] = useState(TERMINATE_COUNTDOWN_S);
+  const [terminated, setTerminated] = useState(false);
 
   // Inline "share your phone" flow (shown when the assistant asks for a number)
   const [requestPhone, setRequestPhone] = useState(false);
@@ -55,8 +63,12 @@ export default function ChatWidget() {
   const messagesRef = useRef(messages);
   const sentCountRef = useRef(0); // messages already delivered to /api/lead
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const terminateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const warnIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const terminatedRef = useRef(false);
   leadRef.current = lead;
   messagesRef.current = messages;
+  terminatedRef.current = terminated;
 
   // Send the current conversation to /api/lead (email + WhatsApp). Idempotent:
   // only sends when there's a real user message AND new content since last send.
@@ -89,15 +101,82 @@ export default function ChatWidget() {
       .catch(() => {});
   }, []);
 
-  const scheduleIdleSend = useCallback(() => {
-    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-    idleTimerRef.current = setTimeout(() => flushLead(false), AUTO_SEND_IDLE_MS);
-  }, [flushLead]);
+  const clearTimers = useCallback(() => {
+    if (idleTimerRef.current) {
+      clearTimeout(idleTimerRef.current);
+      idleTimerRef.current = null;
+    }
+    if (terminateTimerRef.current) {
+      clearTimeout(terminateTimerRef.current);
+      terminateTimerRef.current = null;
+    }
+    if (warnIntervalRef.current) {
+      clearInterval(warnIntervalRef.current);
+      warnIntervalRef.current = null;
+    }
+  }, []);
+
+  // The ONLY place a lead is sent: the AI ends the chat after inactivity.
+  const terminate = useCallback(() => {
+    clearTimers();
+    setWarning(false);
+    setTerminated(true);
+    terminatedRef.current = true;
+    flushLead(false);
+    setMessages((m) => [
+      ...m,
+      {
+        role: "assistant",
+        content:
+          "This chat has ended due to inactivity. I've shared our conversation with the InnoStarck team — they'll follow up shortly. Tap “Start new chat” to continue.",
+      },
+    ]);
+  }, [clearTimers, flushLead]);
+
+  const beginWarning = useCallback(() => {
+    setWarning(true);
+    setCountdown(TERMINATE_COUNTDOWN_S);
+    warnIntervalRef.current = setInterval(() => {
+      setCountdown((c) => (c > 0 ? c - 1 : 0));
+    }, 1000);
+    terminateTimerRef.current = setTimeout(terminate, TERMINATE_COUNTDOWN_S * 1000);
+  }, [terminate]);
+
+  // (Re)start the 30s inactivity countdown that leads to the warning.
+  const startInactivityTimer = useCallback(() => {
+    clearTimers();
+    if (terminatedRef.current) return;
+    idleTimerRef.current = setTimeout(beginWarning, INACTIVITY_WARN_MS);
+  }, [clearTimers, beginWarning]);
+
+  // "I'm still here" — cancel the warning and resume without sending.
+  const keepAlive = useCallback(() => {
+    setWarning(false);
+    startInactivityTimer();
+    inputRef.current?.focus();
+  }, [startInactivityTimer]);
 
   function closeChat() {
-    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-    flushLead(false);
+    clearTimers();
     setOpen(false);
+  }
+
+  function startOver() {
+    clearTimers();
+    setMessages([GREETING]);
+    setLead(emptyLead);
+    leadRef.current = emptyLead;
+    messagesRef.current = [GREETING];
+    sentCountRef.current = 0;
+    setOptions([]);
+    setHandoff(null);
+    setRequestPhone(false);
+    setShowPhoneInput(false);
+    setHumanMode(false);
+    setWarning(false);
+    setTerminated(false);
+    terminatedRef.current = false;
+    setInput("");
   }
 
   // Allow other parts of the page (e.g. footer "Chat now") to open the widget.
@@ -107,21 +186,12 @@ export default function ChatWidget() {
     return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
   }, []);
 
-  // Flush on tab close / navigation away (best-effort via sendBeacon).
-  useEffect(() => {
-    const onLeave = () => flushLead(true);
-    window.addEventListener("pagehide", onLeave);
-    window.addEventListener("beforeunload", onLeave);
-    return () => {
-      window.removeEventListener("pagehide", onLeave);
-      window.removeEventListener("beforeunload", onLeave);
-      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
-    };
-  }, [flushLead]);
+  // Clean up any running timers on unmount.
+  useEffect(() => clearTimers, [clearTimers]);
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
-  }, [messages, loading, handoff, humanMode, showCallback, callbackSent, options, requestPhone, showPhoneInput, phoneError]);
+  }, [messages, loading, handoff, humanMode, showCallback, callbackSent, options, requestPhone, showPhoneInput, phoneError, warning, countdown, terminated]);
 
   useEffect(() => {
     if (open) inputRef.current?.focus();
@@ -129,9 +199,11 @@ export default function ChatWidget() {
 
   async function send(text: string) {
     const trimmed = text.trim();
-    if (!trimmed || loading) return;
+    if (!trimmed || loading || terminatedRef.current) return;
 
-    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    // Sending a message counts as activity: cancel any pending warning/termination.
+    clearTimers();
+    setWarning(false);
     const nextMessages: ChatMessage[] = [...messages, { role: "user", content: trimmed }];
     setMessages(nextMessages);
     setInput("");
@@ -159,12 +231,8 @@ export default function ChatWidget() {
       setOptions(Array.isArray(data.options) ? data.options : []);
       setRequestPhone(Boolean(data.requestPhone) && !mergedLead.phone);
 
-      // Send the transcript when the visitor completes the flow OR falls idle.
-      if (data.complete) {
-        flushLead(false);
-      } else {
-        scheduleIdleSend();
-      }
+      // Start the inactivity countdown; the lead is only sent if it expires.
+      startInactivityTimer();
     } catch {
       setMessages((m) => [
         ...m,
@@ -426,6 +494,27 @@ export default function ChatWidget() {
                 </a>
               </div>
             )}
+
+            {warning && !terminated && (
+              <div className="chat-warning" role="alert">
+                <div className="chat-warning__title">Are you still there?</div>
+                <div className="chat-warning__note">
+                  This chat will end in <strong>{countdown}s</strong> due to inactivity, and I&apos;ll
+                  pass our conversation to the team.
+                </div>
+                <button type="button" className="btn btn--primary" onClick={keepAlive}>
+                  I&apos;m still here
+                </button>
+              </div>
+            )}
+
+            {terminated && (
+              <div className="chat-restart">
+                <button type="button" className="btn btn--primary" onClick={startOver}>
+                  Start new chat
+                </button>
+              </div>
+            )}
           </div>
 
           <form className="chat-panel__foot" onSubmit={handleSubmit}>
@@ -434,15 +523,15 @@ export default function ChatWidget() {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask anything…"
+                placeholder={terminated ? "Chat ended — start a new chat" : "Ask anything…"}
                 aria-label="Type your message"
-                disabled={loading}
+                disabled={loading || terminated}
               />
               <button
                 type="submit"
                 className="chat-input__send"
                 aria-label="Send message"
-                disabled={loading || !input.trim()}
+                disabled={loading || terminated || !input.trim()}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="#0A0E12" aria-hidden="true">
                   <path d="M3 11l18-8-8 18-2-7-8-3Z" />
