@@ -8,7 +8,6 @@ import {
   reasons,
   industries,
 } from "@/lib/content";
-import { siteConfig } from "@/lib/site";
 
 /* ---------- generic page header ---------- */
 export function PageHeader({
@@ -226,9 +225,6 @@ export function CtaSection({
             <Link href="/contact" className="btn btn--primary">
               Talk to our engineers →
             </Link>
-            <a href={`mailto:${siteConfig.email}`} className="btn btn--ghost">
-              {siteConfig.email}
-            </a>
           </div>
         </div>
       </div>

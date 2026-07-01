@@ -31,6 +31,7 @@ export default function Footer() {
             <div className="footer__col">
               <h5>Reach</h5>
               <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+              <a href="tel:+255614712348">+255 614 712 348</a>
               <Link href="/contact">{siteConfig.location}</Link>
             </div>
           </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { emptyLead, type ChatApiResponse, type ChatMessage, type CollectedLead } from "@/lib/types";
 import { siteConfig } from "@/lib/site";
 import { OPEN_CHAT_EVENT } from "@/lib/chat-bus";
@@ -22,6 +22,9 @@ const GREETING: ChatMessage = {
 };
 
 const SUGGESTIONS = ["Explore services", "Get a quote", "Talk to a human"];
+
+// How long after the visitor's last message before we auto-send the transcript.
+const AUTO_SEND_IDLE_MS = 25_000;
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -47,12 +50,74 @@ export default function ChatWidget() {
   const bodyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Live refs so timers / unload handlers read the latest state without stale closures.
+  const leadRef = useRef(lead);
+  const messagesRef = useRef(messages);
+  const sentCountRef = useRef(0); // messages already delivered to /api/lead
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  leadRef.current = lead;
+  messagesRef.current = messages;
+
+  // Send the current conversation to /api/lead (email + WhatsApp). Idempotent:
+  // only sends when there's a real user message AND new content since last send.
+  const flushLead = useCallback((useBeacon = false) => {
+    const msgs = messagesRef.current;
+    const hasUserMsg = msgs.some((m) => m.role === "user");
+    if (!hasUserMsg || msgs.length <= sentCountRef.current) return;
+    sentCountRef.current = msgs.length;
+
+    const payload = JSON.stringify({
+      lead: leadRef.current,
+      transcript: msgs,
+      source: "AI assistant chat",
+    });
+
+    if (useBeacon && typeof navigator !== "undefined" && navigator.sendBeacon) {
+      navigator.sendBeacon("/api/lead", new Blob([payload], { type: "application/json" }));
+      return;
+    }
+    fetch("/api/lead", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: payload,
+      keepalive: true,
+    })
+      .then((r) => r.json())
+      .then((d) => {
+        if (d?.whatsappUrl) setHandoff({ whatsappUrl: d.whatsappUrl, emailed: Boolean(d.emailed) });
+      })
+      .catch(() => {});
+  }, []);
+
+  const scheduleIdleSend = useCallback(() => {
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    idleTimerRef.current = setTimeout(() => flushLead(false), AUTO_SEND_IDLE_MS);
+  }, [flushLead]);
+
+  function closeChat() {
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    flushLead(false);
+    setOpen(false);
+  }
+
   // Allow other parts of the page (e.g. footer "Chat now") to open the widget.
   useEffect(() => {
     const onOpen = () => setOpen(true);
     window.addEventListener(OPEN_CHAT_EVENT, onOpen);
     return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
   }, []);
+
+  // Flush on tab close / navigation away (best-effort via sendBeacon).
+  useEffect(() => {
+    const onLeave = () => flushLead(true);
+    window.addEventListener("pagehide", onLeave);
+    window.addEventListener("beforeunload", onLeave);
+    return () => {
+      window.removeEventListener("pagehide", onLeave);
+      window.removeEventListener("beforeunload", onLeave);
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    };
+  }, [flushLead]);
 
   useEffect(() => {
     if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
@@ -66,6 +131,7 @@ export default function ChatWidget() {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
 
+    if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
     const nextMessages: ChatMessage[] = [...messages, { role: "user", content: trimmed }];
     setMessages(nextMessages);
     setInput("");
@@ -88,11 +154,16 @@ export default function ChatWidget() {
 
       const mergedLead = mergeLead(lead, data.collected);
       setLead(mergedLead);
+      leadRef.current = mergedLead;
+      messagesRef.current = withReply;
       setOptions(Array.isArray(data.options) ? data.options : []);
       setRequestPhone(Boolean(data.requestPhone) && !mergedLead.phone);
 
-      if (data.complete && !handoff) {
-        void submitLead(mergedLead, withReply);
+      // Send the transcript when the visitor completes the flow OR falls idle.
+      if (data.complete) {
+        flushLead(false);
+      } else {
+        scheduleIdleSend();
       }
     } catch {
       setMessages((m) => [
@@ -196,7 +267,7 @@ export default function ChatWidget() {
               type="button"
               className="chat-panel__close"
               aria-label="Close chat"
-              onClick={() => setOpen(false)}
+              onClick={closeChat}
             >
               ×
             </button>
@@ -388,7 +459,7 @@ export default function ChatWidget() {
         className="chat-fab"
         aria-expanded={open}
         aria-label={open ? "Close InnoStarck AI assistant" : "Open InnoStarck AI assistant"}
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => (open ? closeChat() : setOpen(true))}
       >
         <span className="chat-fab__icon">
           <StarIcon fill="#18CBAE" />
