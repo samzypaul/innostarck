@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, Inter, Space_Mono } from "next/font/google";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
@@ -115,6 +116,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <ChatWidget />
+        <Analytics />
       </body>
     </html>
   );
