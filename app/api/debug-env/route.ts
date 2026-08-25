@@ -28,5 +28,8 @@ export async function GET() {
       ];
     }),
   );
-  return NextResponse.json(status);
+  // Names only, never values — shows whether Amplify is injecting ANY custom
+  // vars into this runtime, beyond the AWS/Lambda/Next.js built-in ones.
+  const allNames = Object.keys(process.env).sort();
+  return NextResponse.json({ status, totalEnvVarCount: allNames.length, allNames });
 }
