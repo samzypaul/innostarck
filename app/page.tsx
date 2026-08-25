@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
-import { ServicesSection, WhySection, CtaSection } from "@/components/sections";
+import { ServicesSection, ProductsSection, WhySection, CtaSection } from "@/components/sections";
 
 export const metadata: Metadata = {
   title: "InnoStarck — Engineering-grade resilience for mission-critical systems",
@@ -20,6 +20,7 @@ export default function HomePage() {
     <>
       <Hero />
       <ServicesSection />
+      <ProductsSection />
       <WhySection withRule />
       <CtaSection />
     </>

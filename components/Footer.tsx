@@ -24,6 +24,12 @@ export default function Footer() {
               <Link href="/leadership">Leadership</Link>
             </div>
             <div className="footer__col">
+              <h5>Products</h5>
+              <a href="https://bmssuite.online" target="_blank" rel="noopener noreferrer">
+                BMS Suite ↗
+              </a>
+            </div>
+            <div className="footer__col">
               <h5>Legal</h5>
               <Link href="/privacy">Privacy Policy</Link>
               <Link href="/terms">Terms of Service</Link>

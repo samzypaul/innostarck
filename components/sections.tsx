@@ -7,6 +7,7 @@ import {
   methodSteps,
   reasons,
   industries,
+  products,
 } from "@/lib/content";
 
 /* ---------- generic page header ---------- */
@@ -51,22 +52,132 @@ export function ServicesSection({
           <p>{intro}</p>
         </div>
         <div className="svc-grid">
-          {services.map((s) => (
-            <article className="svc" key={s.code}>
+          {services.map((s, i) => (
+            <article className={i === 0 ? "svc svc--feature" : "svc"} key={s.code}>
               <div className="svc__top">
                 <span>{s.code}</span>
                 <ServiceIcon name={s.icon} />
               </div>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-              <div className="tag-row">
-                {s.tags.map((t) => (
-                  <span className="tag" key={t}>
-                    {t}
-                  </span>
-                ))}
+              <div className="svc__body">
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+                <div className="tag-row">
+                  {s.tags.map((t) => (
+                    <span className="tag" key={t}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
               </div>
             </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- products ---------- */
+export function ProductsSection() {
+  return (
+    <section className="section section--tight" aria-labelledby="products-heading">
+      <div className="container">
+        <div className="section-head">
+          <Eyebrow>From Our Own Stack</Eyebrow>
+          <h2 className="h2" id="products-heading">
+            Software we&apos;ve built and use ourselves — ready for your business today.
+          </h2>
+        </div>
+        <div className="product-grid">
+          {products.map((p) => (
+            <div className="product-card" key={p.code}>
+              <div className="product-card__mock" aria-hidden="true">
+                <div className="product-card__mock-bar">
+                  <span className="product-card__mock-dots">
+                    <i />
+                    <i />
+                    <i />
+                  </span>
+                  <span className="product-card__mock-url">{p.url.replace("https://", "")}</span>
+                </div>
+                <div className="pmock">
+                  <div className="pmock__sidebar">
+                    <span className="pmock__logo" />
+                    <span className="pmock__nav pmock__nav--active" />
+                    <span className="pmock__nav" />
+                    <span className="pmock__nav" />
+                    <span className="pmock__nav" />
+                    <span className="pmock__nav" />
+                  </div>
+                  <div className="pmock__main">
+                    <div className="pmock__topbar">
+                      <span className="pmock__search">Search or jump to a page…</span>
+                      <span className="pmock__avatar">SA</span>
+                    </div>
+                    <div className="pmock__body">
+                      <div className="pmock__stats">
+                        <div className="pmock__stat">
+                          <span className="pmock__stat-icon" />
+                          <div className="pmock__stat-label">Revenue</div>
+                          <div className="pmock__stat-value">128,400</div>
+                        </div>
+                        <div className="pmock__stat">
+                          <span className="pmock__stat-icon" />
+                          <div className="pmock__stat-label">Net margin</div>
+                          <div className="pmock__stat-value pmock__stat-value--up">42%</div>
+                        </div>
+                        <div className="pmock__stat">
+                          <span className="pmock__stat-icon" />
+                          <div className="pmock__stat-label">Liquidity</div>
+                          <div className="pmock__stat-value">54,200</div>
+                        </div>
+                        <div className="pmock__stat">
+                          <span className="pmock__stat-icon pmock__stat-icon--warn" />
+                          <div className="pmock__stat-label">Low stock</div>
+                          <div className="pmock__stat-value pmock__stat-value--warn">3</div>
+                        </div>
+                      </div>
+                      <div className="pmock__chart">
+                        <svg viewBox="0 0 400 110" preserveAspectRatio="none">
+                          <path
+                            className="pmock__chart-fill"
+                            d="M0 90 L40 88 L80 92 L120 60 L160 85 L200 40 L240 70 L280 30 L320 55 L360 20 L400 45 V110 H0 Z"
+                          />
+                          <path
+                            className="pmock__chart-line"
+                            d="M0 90 L40 88 L80 92 L120 60 L160 85 L200 40 L240 70 L280 30 L320 55 L360 20 L400 45"
+                            fill="none"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="product-card__body">
+                <span className="tag tag--live">● Live product</span>
+                <h3>{p.name}</h3>
+                <p className="product-card__tagline">{p.tagline}</p>
+                <p>{p.body}</p>
+                <div className="tag-row">
+                  {p.tags.map((t) => (
+                    <span className="tag" key={t}>
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  className="btn btn--ink"
+                  href={p.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ marginTop: 24 }}
+                >
+                  View system →
+                </a>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -125,9 +236,8 @@ export function MethodSection() {
         <div className="steps">
           {methodSteps.map((step) => (
             <div className="step" key={step.index}>
-              <div className="step__index">
-                {step.index} / {step.phase}
-              </div>
+              <div className="step__badge">{step.index}</div>
+              <div className="step__phase">{step.phase}</div>
               <h4>{step.title}</h4>
               <p>{step.body}</p>
             </div>

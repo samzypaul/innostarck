@@ -108,6 +108,26 @@ export const reasons: Reason[] = [
   },
 ];
 
+export type Product = {
+  code: string;
+  name: string;
+  tagline: string;
+  body: string;
+  url: string;
+  tags: string[];
+};
+
+export const products: Product[] = [
+  {
+    code: "PRODUCT",
+    name: "BMS Suite",
+    tagline: "Business Management SaaS — built by InnoStarck, ready to use today.",
+    body: "A complete operations platform for running your business — inventory, sales, staff, and reporting in one system. No lengthy build cycle: sign up and start running your business on it now.",
+    url: "https://bmssuite.online",
+    tags: ["SaaS", "Live product", "No setup wait"],
+  },
+];
+
 export const industries: string[] = [
   "Finance & Fintech",
   "Healthcare & MedTech",

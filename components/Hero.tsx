@@ -1,6 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "./Eyebrow";
 import { siteConfig } from "@/lib/site";
+
+const VALUE_POINTS = [
+  "Four engineering disciplines under one roof — web, IoT, AI, and data.",
+  "A biomedical-engineering mindset: zero margin for error.",
+  "Live software you can use today, not just a portfolio of ideas.",
+  "Built in Dar es Salaam, measured against global standards.",
+];
 
 export default function Hero() {
   return (
@@ -15,30 +23,62 @@ export default function Hero() {
       </div>
 
       <div className="container hero__inner">
-        <Eyebrow>Engineering-Led Technology Firm</Eyebrow>
-        <h1 className="h1" id="hero-title">
-          <span>
-            Precision for <span className="accent-orange">Humanity.</span>
-          </span>
-          <span>Engineering-grade</span>
-          <span>resilience.</span>
-        </h1>
-        <p className="hero__lede">
-          We build the technical backbone for organizations that cannot afford to fail — bridging
-          complex engineering with digital systems engineered for absolute reliability.
-        </p>
-        <div className="btn-row">
-          <Link href="/services" className="btn btn--primary">
-            Explore our solutions →
-          </Link>
-          <Link href="/contact" className="btn btn--ghost">
-            Talk to our engineers
-          </Link>
-        </div>
+        <div className="hero__grid">
+          <div className="hero__copy">
+            <Eyebrow>Engineering-Led Technology Firm</Eyebrow>
+            <h1 className="h1" id="hero-title">
+              <span>
+                Precision for <span className="accent">Humanity.</span>
+              </span>
+              <span>Engineering-grade</span>
+              <span>resilience.</span>
+            </h1>
+            <p className="hero__lede">
+              We build the technical backbone for organizations that cannot afford to fail —
+              bridging complex engineering with digital systems engineered for absolute
+              reliability.
+            </p>
+            <div className="btn-row">
+              <Link href="/services" className="btn btn--primary">
+                Explore our solutions →
+              </Link>
+              <Link href="/contact" className="btn btn--ghost">
+                Talk to our engineers
+              </Link>
+            </div>
+            <ul className="hero__points">
+              {VALUE_POINTS.map((point) => (
+                <li key={point}>
+                  <CheckIcon />
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <SignalMonitor />
+          <div className="hero__visual">
+            <div className="hero__photo">
+              <Image
+                src="/images/hero-team.jpg"
+                alt="Engineers collaborating across screens on a build"
+                fill
+                sizes="(max-width: 980px) 100vw, 620px"
+                priority
+              />
+            </div>
+            <SignalMonitor />
+          </div>
+        </div>
       </div>
     </section>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
+      <path d="M5 13l4 4L19 7" />
+    </svg>
   );
 }
 
