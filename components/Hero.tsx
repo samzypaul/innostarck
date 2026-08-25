@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "./Eyebrow";
+import HeroSlideshow from "./HeroSlideshow";
 import { siteConfig } from "@/lib/site";
 
 const VALUE_POINTS = [
@@ -58,13 +58,7 @@ export default function Hero() {
 
           <div className="hero__visual">
             <div className="hero__photo">
-              <Image
-                src="/images/hero-team.jpg"
-                alt="Engineers collaborating across screens on a build"
-                fill
-                sizes="(max-width: 980px) 100vw, 620px"
-                priority
-              />
+              <HeroSlideshow />
             </div>
             <SignalMonitor />
           </div>
