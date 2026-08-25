@@ -15,6 +15,7 @@ const EXPECTED_VARS = [
   "GMAIL_APP_PASSWORD",
   "LEAD_TO_EMAIL",
   "WHATSAPP_TO_NUMBER",
+  "DEBUG_TEST",
 ];
 
 export async function GET() {
