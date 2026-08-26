@@ -3,6 +3,11 @@ frontend:
   phases:
     preBuild:
       commands:
+        - echo "GMAIL_USER=$GMAIL_USER" >> .env.production
+        - echo "GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD" >> .env.production
+        - echo "GOOGLE_GENERATIVE_AI_API_KEY=$GOOGLE_GENERATIVE_AI_API_KEY" >> .env.production
+        - echo "LEAD_TO_EMAIL=$LEAD_TO_EMAIL" >> .env.production
+        - echo "WHATSAPP_TO_NUMBER=$WHATSAPP_TO_NUMBER" >> .env.production
         - npm ci
     build:
       commands:
