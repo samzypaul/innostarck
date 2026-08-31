@@ -5,6 +5,8 @@ import { emptyLead, type ChatApiResponse, type ChatMessage, type CollectedLead }
 import { siteConfig } from "@/lib/site";
 import { OPEN_CHAT_EVENT } from "@/lib/chat-bus";
 import { isValidPhone } from "@/lib/validation";
+import { useLanguage } from "@/lib/i18n/language-provider";
+import { chat as t } from "@/lib/i18n/strings";
 
 const WHATSAPP_URL = `https://wa.me/${siteConfig.whatsapp}`;
 const TEL_URL = `tel:${siteConfig.phone}`;
@@ -15,13 +17,10 @@ const StarIcon = ({ fill }: { fill: string }) => (
   </svg>
 );
 
-const GREETING: ChatMessage = {
-  role: "assistant",
-  content:
-    "Hi — I'm the InnoStarck AI assistant. I can answer questions on our services, scope, and approach, and connect you with our team. What are you building?",
-};
-
-const SUGGESTIONS = ["Explore services", "Get a quote", "Talk to a human"];
+// Sentinel content for the greeting bubble so it re-renders in the current
+// language even if the visitor switches after the chat has already opened.
+const GREETING_SENTINEL = "__GREETING__";
+const GREETING: ChatMessage = { role: "assistant", content: GREETING_SENTINEL };
 
 // Inactivity handling: after this long with no interaction the assistant warns
 // the visitor; if they don't respond within the countdown, it ends the chat and
@@ -30,6 +29,7 @@ const INACTIVITY_WARN_MS = 30_000;
 const TERMINATE_COUNTDOWN_S = 15;
 
 export default function ChatWidget() {
+  const { locale } = useLanguage();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([GREETING]);
   const [input, setInput] = useState("");
@@ -61,6 +61,7 @@ export default function ChatWidget() {
   // Live refs so timers / unload handlers read the latest state without stale closures.
   const leadRef = useRef(lead);
   const messagesRef = useRef(messages);
+  const localeRef = useRef(locale);
   const sentCountRef = useRef(0); // messages already delivered to /api/lead
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const terminateTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -68,6 +69,7 @@ export default function ChatWidget() {
   const terminatedRef = useRef(false);
   leadRef.current = lead;
   messagesRef.current = messages;
+  localeRef.current = locale;
   terminatedRef.current = terminated;
 
   // Send the current conversation to /api/lead (email + WhatsApp). Idempotent:
@@ -125,11 +127,7 @@ export default function ChatWidget() {
     flushLead(false);
     setMessages((m) => [
       ...m,
-      {
-        role: "assistant",
-        content:
-          "This chat has ended due to inactivity. I've shared our conversation with the InnoStarck team — they'll follow up shortly. Tap “Start new chat” to continue.",
-      },
+      { role: "assistant", content: t.terminatedReply[localeRef.current] },
     ]);
   }, [clearTimers, flushLead]);
 
@@ -217,7 +215,7 @@ export default function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: nextMessages }),
+        body: JSON.stringify({ messages: nextMessages, language: locale }),
       });
       const data: ChatApiResponse = await res.json();
 
@@ -234,14 +232,7 @@ export default function ChatWidget() {
       // Start the inactivity countdown; the lead is only sent if it expires.
       startInactivityTimer();
     } catch {
-      setMessages((m) => [
-        ...m,
-        {
-          role: "assistant",
-          content:
-            "Sorry — something went wrong on my end. You can reach us directly at info@innostarck.com.",
-        },
-      ]);
+      setMessages((m) => [...m, { role: "assistant", content: t.chatErrorReply[locale] }]);
     } finally {
       setLoading(false);
     }
@@ -274,7 +265,7 @@ export default function ChatWidget() {
     e.preventDefault();
     const v = phoneValue.trim();
     if (!isValidPhone(v)) {
-      setPhoneError("Please enter a valid phone number — 9–15 digits, e.g. +255 712 345 678.");
+      setPhoneError(t.phoneError[locale]);
       return;
     }
     setPhoneError(null);
@@ -293,7 +284,7 @@ export default function ChatWidget() {
 
     const finalLead = mergeLead(lead, {
       phone,
-      projectSummary: lead.projectSummary || "Requested a callback — wants to talk to a human.",
+      projectSummary: lead.projectSummary || "Requested a callback and wants to talk to a human.",
     });
     setLead(finalLead);
     setCallbackSent(true);
@@ -314,16 +305,16 @@ export default function ChatWidget() {
               <StarIcon fill="#0A0E12" />
             </span>
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div className="chat-panel__title">InnoStarck Assistant</div>
+              <div className="chat-panel__title">{t.panelTitle[locale]}</div>
               <div className="chat-panel__status">
-                <i aria-hidden="true" /> AI · REPLIES INSTANTLY
+                <i aria-hidden="true" /> {t.status[locale]}
               </div>
             </div>
             <button
               type="button"
               className="chat-panel__human"
-              title="Talk to a human"
-              aria-label="Talk to a human"
+              title={t.talkToHuman[locale]}
+              aria-label={t.talkToHuman[locale]}
               onClick={openHuman}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
@@ -334,7 +325,7 @@ export default function ChatWidget() {
             <button
               type="button"
               className="chat-panel__close"
-              aria-label="Close chat"
+              aria-label={t.closeChat[locale]}
               onClick={closeChat}
             >
               ×
@@ -347,7 +338,7 @@ export default function ChatWidget() {
                 key={i}
                 className={m.role === "user" ? "chat-bubble chat-bubble--user" : "chat-bubble"}
               >
-                {m.content}
+                {m.content === GREETING_SENTINEL ? t.greeting[locale] : m.content}
               </p>
             ))}
 
@@ -378,7 +369,7 @@ export default function ChatWidget() {
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                       <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3-8.6A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" />
                     </svg>
-                    Tap to enter your phone number →
+                    {t.tapPhone[locale]}
                   </button>
                 ) : (
                   <form className="chat-callback" onSubmit={submitPhone}>
@@ -389,14 +380,14 @@ export default function ChatWidget() {
                         if (phoneError) setPhoneError(null);
                       }}
                       placeholder="e.g. +255 712 345 678"
-                      aria-label="Your phone or WhatsApp number"
+                      aria-label={t.phoneAria[locale]}
                       aria-invalid={phoneError ? true : undefined}
                       inputMode="tel"
                       autoComplete="tel"
                       autoFocus
                     />
                     <button type="submit" className="btn btn--primary" disabled={!phoneValue.trim()}>
-                      Save
+                      {t.save[locale]}
                     </button>
                   </form>
                 )}
@@ -410,7 +401,7 @@ export default function ChatWidget() {
 
             {messages.length === 1 && !loading && !humanMode && (
               <div className="chat-chips">
-                {SUGGESTIONS.map((s, i) => (
+                {t.suggestions[locale].map((s, i) => (
                   <button
                     key={s}
                     type="button"
@@ -425,8 +416,8 @@ export default function ChatWidget() {
 
             {humanMode && (
               <div className="chat-handoff">
-                <div className="chat-handoff__title">Talk to a human</div>
-                <div className="chat-handoff__note">Choose how you&apos;d like to connect with our team:</div>
+                <div className="chat-handoff__title">{t.talkToHuman[locale]}</div>
+                <div className="chat-handoff__note">{t.humanNote[locale]}</div>
                 <div className="chat-human__options">
                   <a
                     className="btn btn--primary"
@@ -434,15 +425,15 @@ export default function ChatWidget() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Reach out on WhatsApp →
+                    {t.reachWhatsapp[locale]}
                   </a>
                   <a className="btn btn--ghost" href={TEL_URL}>
-                    Call us now →
+                    {t.callNow[locale]}
                   </a>
 
                   {!showCallback && !callbackSent && (
                     <button type="button" className="btn btn--ghost" onClick={() => setShowCallback(true)}>
-                      Leave your WhatsApp number →
+                      {t.leaveWhatsapp[locale]}
                     </button>
                   )}
 
@@ -452,36 +443,34 @@ export default function ChatWidget() {
                         value={callbackPhone}
                         onChange={(e) => setCallbackPhone(e.target.value)}
                         placeholder="e.g. +255 7XX XXX XXX"
-                        aria-label="Your WhatsApp number"
+                        aria-label={t.whatsappAria[locale]}
                         inputMode="tel"
                         autoFocus
                       />
                       <button type="submit" className="btn btn--primary" disabled={!callbackPhone.trim()}>
-                        Send
+                        {t.send[locale]}
                       </button>
                     </form>
                   )}
 
                   {callbackSent && (
                     <p className="form__note" role="status">
-                      ✓ Thanks — our team will reach out to you on WhatsApp shortly.
+                      {t.callbackSent[locale]}
                     </p>
                   )}
                 </div>
                 <button type="button" className="chat-human__back" onClick={() => setHumanMode(false)}>
-                  ← Back to chat
+                  {t.backToChat[locale]}
                 </button>
               </div>
             )}
 
             {handoff && (
               <div className="chat-handoff">
-                <div className="chat-handoff__title">✓ Shared with the InnoStarck team</div>
+                <div className="chat-handoff__title">{t.sharedTitle[locale]}</div>
                 <div className="chat-handoff__note">
-                  {handoff.emailed
-                    ? "We've emailed your details to a specialist. "
-                    : "Your details are saved. "}
-                  Continue the conversation on WhatsApp:
+                  {handoff.emailed ? t.emailedNote[locale] : t.savedNote[locale]}
+                  {t.continueWhatsapp[locale]}
                 </div>
                 <a
                   className="btn btn--primary"
@@ -490,20 +479,21 @@ export default function ChatWidget() {
                   rel="noopener noreferrer"
                   style={{ marginTop: 12 }}
                 >
-                  Open WhatsApp →
+                  {t.openWhatsapp[locale]}
                 </a>
               </div>
             )}
 
             {warning && !terminated && (
               <div className="chat-warning" role="alert">
-                <div className="chat-warning__title">Are you still there?</div>
+                <div className="chat-warning__title">{t.stillThere[locale]}</div>
                 <div className="chat-warning__note">
-                  This chat will end in <strong>{countdown}s</strong> due to inactivity, and I&apos;ll
-                  pass our conversation to the team.
+                  {t.warningPrefix[locale]}
+                  <strong>{countdown}s</strong>
+                  {t.warningSuffix[locale]}
                 </div>
                 <button type="button" className="btn btn--primary" onClick={keepAlive}>
-                  I&apos;m still here
+                  {t.imStillHere[locale]}
                 </button>
               </div>
             )}
@@ -511,7 +501,7 @@ export default function ChatWidget() {
             {terminated && (
               <div className="chat-restart">
                 <button type="button" className="btn btn--primary" onClick={startOver}>
-                  Start new chat
+                  {t.startNewChat[locale]}
                 </button>
               </div>
             )}
@@ -523,7 +513,7 @@ export default function ChatWidget() {
                 ref={inputRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={terminated ? "Chat ended — start a new chat" : "Ask anything…"}
+                placeholder={terminated ? t.chatEnded[locale] : t.askAnything[locale]}
                 aria-label="Type your message"
                 disabled={loading || terminated}
               />
@@ -538,7 +528,7 @@ export default function ChatWidget() {
                 </svg>
               </button>
             </div>
-            <div className="chat-panel__disclaimer">AI-ASSISTED · A SPECIALIST JOINS WHEN NEEDED</div>
+            <div className="chat-panel__disclaimer">{t.disclaimer[locale]}</div>
           </form>
         </div>
       )}
@@ -547,13 +537,13 @@ export default function ChatWidget() {
         type="button"
         className="chat-fab"
         aria-expanded={open}
-        aria-label={open ? "Close InnoStarck AI assistant" : "Open InnoStarck AI assistant"}
+        aria-label={open ? t.fabCloseAria[locale] : t.fabOpenAria[locale]}
         onClick={() => (open ? closeChat() : setOpen(true))}
       >
         <span className="chat-fab__icon">
           <StarIcon fill="#18CBAE" />
         </span>
-        Ask InnoStarck AI
+        {t.fabLabel[locale]}
       </button>
     </>
   );

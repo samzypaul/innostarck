@@ -6,7 +6,7 @@ type LogoProps = {
 
 export default function Logo({ large = false }: LogoProps) {
   return (
-    <Link href="/" className={large ? "logo logo--lg" : "logo"} aria-label="InnoStarck — home">
+    <Link href="/" className={large ? "logo logo--lg" : "logo"} aria-label="InnoStarck home">
       <svg width={large ? 34 : 32} height={large ? 34 : 32} viewBox="0 0 96 96" aria-hidden="true">
         <path
           fillRule="evenodd"

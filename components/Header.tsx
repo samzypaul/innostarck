@@ -4,10 +4,29 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Logo from "./Logo";
-import { mainNav } from "@/lib/site";
+import LanguageSwitch from "./LanguageSwitch";
+import { mainNav, type NavId } from "@/lib/site";
+import { useLanguage } from "@/lib/i18n/language-provider";
+import { nav } from "@/lib/i18n/strings";
+
+const NAV_LABEL: Record<NavId, { en: string; sw: string }> = {
+  home: nav.home,
+  services: nav.services,
+  about: nav.about,
+  standard: nav.standard,
+  method: nav.method,
+  leadership: nav.leadership,
+};
+
+const NAV_DESC: Partial<Record<NavId, { en: string; sw: string }>> = {
+  standard: nav.standardDesc,
+  method: nav.methodDesc,
+  leadership: nav.leadershipDesc,
+};
 
 export default function Header() {
   const pathname = usePathname();
+  const { locale } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
 
@@ -40,7 +59,7 @@ export default function Header() {
           {mainNav.map((item) =>
             item.children ? (
               <div
-                key={item.label}
+                key={item.id}
                 className="nav__dropdown-wrap"
                 onMouseEnter={() => setAboutOpen(true)}
                 onMouseLeave={() => setAboutOpen(false)}
@@ -53,17 +72,17 @@ export default function Header() {
                   aria-expanded={aboutOpen}
                   onClick={() => setMobileOpen(false)}
                 >
-                  {item.label}
+                  {NAV_LABEL[item.id][locale]}
                   <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" style={{ transform: "translateY(1px)" }}>
                     <path d="M6 9l6 6 6-6" />
                   </svg>
                 </Link>
                 <ul className="nav__dropdown" data-open={aboutOpen}>
                   {item.children.map((child) => (
-                    <li key={child.label}>
+                    <li key={child.id}>
                       <Link href={child.href} onClick={() => setMobileOpen(false)}>
-                        <span className="nav__dd-title">{child.label}</span>
-                        <span className="nav__dd-desc">{child.description}</span>
+                        <span className="nav__dd-title">{NAV_LABEL[child.id][locale]}</span>
+                        <span className="nav__dd-desc">{NAV_DESC[child.id]?.[locale]}</span>
                       </Link>
                     </li>
                   ))}
@@ -71,19 +90,21 @@ export default function Header() {
               </div>
             ) : (
               <Link
-                key={item.label}
+                key={item.id}
                 href={item.href}
                 className="nav__link"
                 aria-current={isActive(item.href) ? "page" : undefined}
                 onClick={() => setMobileOpen(false)}
               >
-                {item.label}
+                {NAV_LABEL[item.id][locale]}
               </Link>
             ),
           )}
 
+          <LanguageSwitch />
+
           <Link href="/contact" className="btn btn--primary" onClick={() => setMobileOpen(false)}>
-            Contact us →
+            {nav.contactCta[locale]}
           </Link>
         </nav>
       </div>

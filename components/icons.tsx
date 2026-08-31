@@ -36,8 +36,17 @@ export function ServiceIcon({ name }: { name: Service["icon"] }) {
     case "data":
       return (
         <svg {...base}>
-          <path d="M3 3v18h18" />
-          <path d="M7 14l4-4 3 3 5-6" />
+          <path d="M6 3v18M12 6v14M18 2v16" />
+          <rect x="4" y="9" width="4" height="7" fill="currentColor" stroke="none" />
+          <rect x="10" y="12" width="4" height="5" fill="currentColor" stroke="none" />
+          <rect x="16" y="6" width="4" height="9" fill="currentColor" stroke="none" />
+        </svg>
+      );
+    case "mobile":
+      return (
+        <svg {...base}>
+          <rect x="7" y="2" width="10" height="20" rx="2" />
+          <path d="M11 19h2" />
         </svg>
       );
   }

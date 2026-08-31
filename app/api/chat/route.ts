@@ -90,14 +90,14 @@ const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 
 // Groq is OpenAI-compatible. We feed the same system instruction and ask for a
 // JSON object (the instruction already describes the exact fields).
-async function callGroq(key: string, messages: ChatMessage[]): Promise<GeminiAttempt> {
+async function callGroq(key: string, messages: ChatMessage[], instruction: string): Promise<GeminiAttempt> {
   const res = await fetch(GROQ_ENDPOINT, {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: `Bearer ${key}` },
     body: JSON.stringify({
       model: GROQ_MODEL,
       messages: [
-        { role: "system", content: systemInstruction },
+        { role: "system", content: instruction },
         ...messages.map((m) => ({
           role: m.role === "assistant" ? "assistant" : "user",
           content: m.content,
@@ -117,6 +117,16 @@ async function callGroq(key: string, messages: ChatMessage[]): Promise<GeminiAtt
   return { ok: true, text: data?.choices?.[0]?.message?.content };
 }
 
+// The chat widget sends the visitor's site language ("en" | "sw"). The base
+// systemInstruction/knowledge base stays English-only; we just tell the model
+// which language to reply in, so it translates on the fly.
+function buildInstruction(language: unknown): string {
+  if (language === "sw") {
+    return `${systemInstruction}\n\nRespond in Swahili (Kiswahili), regardless of the language the visitor typed in, unless they explicitly ask to switch to English.`;
+  }
+  return systemInstruction;
+}
+
 export async function POST(req: Request) {
   if (!HAS_ANY_KEY) {
     return NextResponse.json(
@@ -129,9 +139,11 @@ export async function POST(req: Request) {
   }
 
   let messages: ChatMessage[] = [];
+  let instruction = systemInstruction;
   try {
     const body = await req.json();
     messages = Array.isArray(body?.messages) ? body.messages : [];
+    instruction = buildInstruction(body?.language);
   } catch {
     return NextResponse.json(fallback("Sorry, I couldn't read that message.", "bad request body"), {
       status: 400,
@@ -153,7 +165,7 @@ export async function POST(req: Request) {
   }));
 
   const payload = {
-    systemInstruction: { parts: [{ text: systemInstruction }] },
+    systemInstruction: { parts: [{ text: instruction }] },
     contents,
     generationConfig: {
       responseMimeType: "application/json",
@@ -181,7 +193,9 @@ export async function POST(req: Request) {
   for (const { provider, key } of attempts) {
     try {
       const r =
-        provider === "gemini" ? await callGemini(key, payload) : await callGroq(key, cleanMessages);
+        provider === "gemini"
+          ? await callGemini(key, payload)
+          : await callGroq(key, cleanMessages, instruction);
       if (r.ok) {
         if (r.text) return NextResponse.json(parseModelText(r.text, FALLBACK_REPLY), { status: 200 });
         lastError = `${provider} returned an empty response`;

@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/lib/i18n/language-provider";
+import { contactForm as t } from "@/lib/i18n/strings";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
 export default function ContactForm() {
+  const { locale } = useLanguage();
   const [status, setStatus] = useState<Status>("idle");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
@@ -50,10 +53,9 @@ export default function ContactForm() {
     return (
       <div className="form" role="status">
         <div className="form__success">
-          <div className="form__success-title">Message sent ✓</div>
+          <div className="form__success-title">{t.successTitle[locale]}</div>
           <p>
-            Thanks for reaching out — our team will get back to you shortly. For anything urgent you
-            can also message us on{" "}
+            {t.successBodyPrefix[locale]}
             <a href="https://wa.me/255795600348" target="_blank" rel="noopener noreferrer">
               WhatsApp
             </a>
@@ -67,12 +69,12 @@ export default function ContactForm() {
   return (
     <form className="form" onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="cf-name">Name</label>
+        <label htmlFor="cf-name">{t.nameLabel[locale]}</label>
         <input
           id="cf-name"
           name="name"
           type="text"
-          placeholder="Your full name"
+          placeholder={t.namePlaceholder[locale]}
           required
           autoComplete="name"
           value={form.name}
@@ -81,7 +83,7 @@ export default function ContactForm() {
         />
       </div>
       <div>
-        <label htmlFor="cf-email">Email</label>
+        <label htmlFor="cf-email">{t.emailLabel[locale]}</label>
         <input
           id="cf-email"
           name="email"
@@ -95,11 +97,11 @@ export default function ContactForm() {
         />
       </div>
       <div>
-        <label htmlFor="cf-message">Message</label>
+        <label htmlFor="cf-message">{t.messageLabel[locale]}</label>
         <textarea
           id="cf-message"
           name="message"
-          placeholder="What are you building?"
+          placeholder={t.messagePlaceholder[locale]}
           required
           value={form.message}
           onChange={update("message")}
@@ -112,11 +114,11 @@ export default function ContactForm() {
         style={{ justifyContent: "center", padding: 15 }}
         disabled={status === "sending"}
       >
-        {status === "sending" ? "Sending…" : "Send message →"}
+        {status === "sending" ? t.sending[locale] : t.send[locale]}
       </button>
       {status === "error" && (
         <p className="form__error" role="alert">
-          Sorry — we couldn&apos;t send that. Please email us directly at{" "}
+          {t.errorPrefix[locale]}
           <a href="mailto:info@innostarck.com">info@innostarck.com</a>.
         </p>
       )}

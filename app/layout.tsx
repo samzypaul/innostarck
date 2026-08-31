@@ -5,7 +5,8 @@ import { Analytics } from "@vercel/analytics/next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ChatWidget from "@/components/ChatWidget";
-import { siteConfig } from "@/lib/site";
+import { siteConfig, baseOpenGraph } from "@/lib/site";
+import { LanguageProvider } from "@/lib/i18n/language-provider";
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
@@ -30,8 +31,8 @@ const spaceMono = Space_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: `${siteConfig.name} — Precision for Humanity`,
-    template: `%s — ${siteConfig.name}`,
+    default: `${siteConfig.name}: Precision for Humanity`,
+    template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
@@ -42,18 +43,16 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   category: "technology",
   openGraph: {
-    type: "website",
-    locale: siteConfig.locale,
+    ...baseOpenGraph,
     url: siteConfig.url,
-    siteName: siteConfig.name,
-    title: `${siteConfig.name} — Precision for Humanity`,
+    title: `${siteConfig.name}: Precision for Humanity`,
     description: siteConfig.description,
   },
   twitter: {
     card: "summary_large_image",
     site: siteConfig.twitter,
     creator: siteConfig.twitter,
-    title: `${siteConfig.name} — Precision for Humanity`,
+    title: `${siteConfig.name}: Precision for Humanity`,
     description: siteConfig.description,
   },
   robots: {
@@ -75,12 +74,21 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// ProfessionalService is a LocalBusiness subtype: it keeps every Organization
+// field we already had while also making the firm eligible for local-pack /
+// Maps-style rich results tied to the Dar es Salaam address below.
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "ProfessionalService",
+  "@id": `${siteConfig.url}/#organization`,
   name: siteConfig.legalName,
+  alternateName: "InnoStarck Technologies",
   url: siteConfig.url,
+  logo: `${siteConfig.url}/icon.svg`,
+  image: `${siteConfig.url}/opengraph-image`,
   email: siteConfig.email,
+  telephone: siteConfig.phone,
+  sameAs: Object.values(siteConfig.social),
   slogan: siteConfig.tagline,
   description: siteConfig.description,
   address: {
@@ -88,6 +96,16 @@ const jsonLd = {
     addressLocality: "Dar es Salaam",
     addressCountry: "TZ",
   },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: siteConfig.coordinates.lat,
+    longitude: siteConfig.coordinates.lng,
+  },
+  areaServed: [
+    { "@type": "Country", name: "Tanzania" },
+    { "@type": "Place", name: "East Africa" },
+    { "@type": "Continent", name: "Africa" },
+  ],
   founder: {
     "@type": "Person",
     name: "Samuel Paul Mbano",
@@ -98,7 +116,9 @@ const jsonLd = {
     "Intelligent IoT & Hardware",
     "AI & Workflow Automation",
     "Strategic Data Analytics",
+    "Mobile App Development",
   ],
+  knowsLanguage: ["en", "sw"],
 };
 
 export default function RootLayout({
@@ -112,10 +132,12 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ChatWidget />
+        <LanguageProvider>
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <ChatWidget />
+        </LanguageProvider>
         <Analytics />
       </body>
     </html>

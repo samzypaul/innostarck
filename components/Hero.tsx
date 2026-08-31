@@ -1,19 +1,39 @@
-import Link from "next/link";
-import Eyebrow from "./Eyebrow";
-import HeroSlideshow from "./HeroSlideshow";
-import { siteConfig } from "@/lib/site";
+"use client";
 
-const VALUE_POINTS = [
-  "Four engineering disciplines under one roof — web, IoT, AI, and data.",
-  "A biomedical-engineering mindset: zero margin for error.",
-  "Live software you can use today, not just a portfolio of ideas.",
-  "Built in Dar es Salaam, measured against global standards.",
-];
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import Eyebrow from "./Eyebrow";
+import { siteConfig } from "@/lib/site";
+import { useLanguage } from "@/lib/i18n/language-provider";
+import { hero as heroStrings, heroSlides as SLIDES } from "@/lib/i18n/strings";
+
+const INTERVAL_MS = 5500;
 
 export default function Hero() {
+  const { locale } = useLanguage();
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActive((i) => (i + 1) % SLIDES.length);
+    }, INTERVAL_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  const slide = SLIDES[active];
+
   return (
     <section className="hero" aria-labelledby="hero-title">
-      <div className="grid-bg" aria-hidden="true" />
+      <div className="hero__bg" aria-hidden="true">
+        {SLIDES.map((s, i) => (
+          <div key={s.image} className="hero__bg-slide" data-active={i === active}>
+            <Image src={s.image} alt="" fill sizes="100vw" priority={i === 0} />
+          </div>
+        ))}
+        <div className="hero__scrim" />
+      </div>
+
       <div className="hero__coords" aria-hidden="true">
         LAT {siteConfig.coordinates.lat}
         <br />
@@ -25,7 +45,10 @@ export default function Hero() {
       <div className="container hero__inner">
         <div className="hero__grid">
           <div className="hero__copy">
-            <Eyebrow>Engineering-Led Technology Firm</Eyebrow>
+            <div key={`eyebrow-${active}`} className="hero__fade">
+              <Eyebrow>{slide.eyebrow[locale]}</Eyebrow>
+            </div>
+
             <h1 className="h1" id="hero-title">
               <span>
                 Precision for <span className="accent">Humanity.</span>
@@ -33,21 +56,22 @@ export default function Hero() {
               <span>Engineering-grade</span>
               <span>resilience.</span>
             </h1>
-            <p className="hero__lede">
-              We build the technical backbone for organizations that cannot afford to fail —
-              bridging complex engineering with digital systems engineered for absolute
-              reliability.
+
+            <p key={`lede-${active}`} className="hero__lede hero__fade">
+              {slide.lede[locale]}
             </p>
+
             <div className="btn-row">
               <Link href="/services" className="btn btn--primary">
-                Explore our solutions →
+                {heroStrings.exploreCta[locale]}
               </Link>
               <Link href="/contact" className="btn btn--ghost">
-                Talk to our engineers
+                {heroStrings.talkCta[locale]}
               </Link>
             </div>
-            <ul className="hero__points">
-              {VALUE_POINTS.map((point) => (
+
+            <ul key={`points-${active}`} className="hero__points hero__fade">
+              {slide.points[locale].map((point) => (
                 <li key={point}>
                   <CheckIcon />
                   {point}
@@ -57,9 +81,6 @@ export default function Hero() {
           </div>
 
           <div className="hero__visual">
-            <div className="hero__photo">
-              <HeroSlideshow />
-            </div>
             <SignalMonitor />
           </div>
         </div>
@@ -77,6 +98,7 @@ function CheckIcon() {
 }
 
 function SignalMonitor() {
+  const { locale } = useLanguage();
   return (
     <div className="monitor" aria-hidden="true">
       <div className="monitor__bar">
@@ -85,7 +107,7 @@ function SignalMonitor() {
           <i />
           <i />
         </div>
-        <span>SYSTEM STATUS — NOMINAL · 0 ERR</span>
+        <span>{heroStrings.systemStatus[locale]}</span>
       </div>
       <div className="monitor__screen">
         <svg viewBox="0 0 1600 170" preserveAspectRatio="none">
@@ -97,19 +119,19 @@ function SignalMonitor() {
       </div>
       <div className="monitor__stats">
         <div className="monitor__stat">
-          <div className="lbl">Uptime</div>
+          <div className="lbl">{heroStrings.uptime[locale]}</div>
           <div className="val">99.99<span className="accent">%</span></div>
         </div>
         <div className="monitor__stat">
-          <div className="lbl">Margin for error</div>
+          <div className="lbl">{heroStrings.marginForError[locale]}</div>
           <div className="val">0.00<span className="accent">°</span></div>
         </div>
         <div className="monitor__stat">
-          <div className="lbl">Disciplines</div>
+          <div className="lbl">{heroStrings.disciplines[locale]}</div>
           <div className="val">04</div>
         </div>
         <div className="monitor__stat">
-          <div className="lbl">Origin</div>
+          <div className="lbl">{heroStrings.origin[locale]}</div>
           <div className="val">Bio<span className="accent">·Eng</span></div>
         </div>
       </div>
