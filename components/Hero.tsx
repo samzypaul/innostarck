@@ -53,7 +53,7 @@ export default function Hero() {
               <span>
                 Precision for <span className="accent">Humanity.</span>
               </span>
-              <span>Engineering-grade</span>
+              <span>Engineering grade</span>
               <span>resilience.</span>
             </h1>
 
@@ -128,7 +128,7 @@ function SignalMonitor() {
         </div>
         <div className="monitor__stat">
           <div className="lbl">{heroStrings.disciplines[locale]}</div>
-          <div className="val">04</div>
+          <div className="val">05</div>
         </div>
         <div className="monitor__stat">
           <div className="lbl">{heroStrings.origin[locale]}</div>

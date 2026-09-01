@@ -5,7 +5,7 @@ import { baseOpenGraph } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Method: From idea to deployment",
   description:
-    "A disciplined four-phase path: Discovery & Ideation, Agile Development, Quality Assurance, and Deploy & Support, with full transparency and bug-free deployments.",
+    "A disciplined path across four phases: Discovery & Ideation, Agile Development, Quality Assurance, and Deploy & Support, with full transparency and bug free deployments.",
   alternates: { canonical: "/method" },
   openGraph: {
     ...baseOpenGraph,

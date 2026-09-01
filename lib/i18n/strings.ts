@@ -44,16 +44,16 @@ export const heroSlides: HeroSlide[] = [
   {
     image: "/images/hero-1-fiber.jpg",
     alt: "Fiber optic cables radiating light",
-    eyebrow: { en: "High-Performance Web Systems", sw: "Mifumo ya Wavuti yenye Utendaji wa Juu" },
+    eyebrow: { en: "High Performance Web Systems", sw: "Mifumo ya Wavuti yenye Utendaji wa Juu" },
     lede: {
-      en: "We build the technical backbone for organizations that can't afford to fail, engineering web platforms fast enough for real-time operations and secure enough for mission-critical data.",
+      en: "We build the technical backbone for organizations that can't afford to fail, engineering web platforms fast enough for operations in real time and secure enough for critical data.",
       sw: "Tunajenga msingi wa kiufundi kwa mashirika yasiyoweza kumudu kushindwa, tukijenga mifumo ya wavuti yenye kasi ya kutosha kwa shughuli za wakati halisi na usalama wa kutosha kwa taarifa muhimu.",
     },
     points: {
       en: [
         "Bespoke architectures for complex business logic and high concurrency.",
-        "Security-first engineering, built in from day one.",
-        "A biomedical-engineering mindset: zero margin for error.",
+        "Security focused engineering, built in from day one.",
+        "A biomedical engineering mindset: zero margin for error.",
         "Built in Dar es Salaam, measured against global standards.",
       ],
       sw: [
@@ -76,7 +76,7 @@ export const heroSlides: HeroSlide[] = [
       en: [
         "Sensors, telemetry, and remote control on infrastructure you can trust.",
         "The nervous system of your business, always connected.",
-        "A biomedical-engineering mindset: zero margin for error.",
+        "A biomedical engineering mindset: zero margin for error.",
         "Built in Dar es Salaam, measured against global standards.",
       ],
       sw: [
@@ -97,9 +97,9 @@ export const heroSlides: HeroSlide[] = [
     },
     points: {
       en: [
-        "Pipelines and predictive systems engineered for zero-error operation.",
+        "Pipelines and predictive systems engineered for operation with zero errors.",
         "The brain for your operations, built for absolute reliability.",
-        "A biomedical-engineering mindset: zero margin for error.",
+        "A biomedical engineering mindset: zero margin for error.",
         "Built in Dar es Salaam, measured against global standards.",
       ],
       sw: [
@@ -114,7 +114,7 @@ export const heroSlides: HeroSlide[] = [
 
 export const footer = {
   blurb: {
-    en: "Precision-driven. Human-centered. Engineering the digital future for your enterprise.",
+    en: "Precision driven. Human centered. Engineering the digital future for your enterprise.",
     sw: "Tunaongozwa na usahihi. Tunamweka binadamu katikati. Tunajenga mustakabali wa kidijitali kwa biashara yako.",
   } satisfies Pair,
   navigate: { en: "Navigate", sw: "Urambazaji" } satisfies Pair,
@@ -135,24 +135,24 @@ export const footer = {
 export const home = {
   servicesEyebrow: { en: "Core Service Pillars", sw: "Nguzo Kuu za Huduma" } satisfies Pair,
   servicesTitle: {
-    en: "Not a web agency. The high-performance hub of your digital operations.",
+    en: "Not a web agency. The high performance hub of your digital operations.",
     sw: "Sio wakala wa wavuti. Kitovu chenye utendaji wa juu cha shughuli zako za kidijitali.",
   } satisfies Pair,
   servicesIntro: {
-    en: "Four integrated disciplines, engineered to work as one system rather than four disconnected tools.",
-    sw: "Taaluma nne zilizounganishwa, zilizojengwa kufanya kazi kama mfumo mmoja badala ya zana nne tofauti.",
+    en: "Five integrated disciplines, engineered to work as one system rather than five disconnected tools.",
+    sw: "Taaluma tano zilizounganishwa, zilizojengwa kufanya kazi kama mfumo mmoja badala ya zana tano tofauti.",
   } satisfies Pair,
 };
 
 export const servicesPage = {
   eyebrow: { en: "Core Service Pillars", sw: "Nguzo Kuu za Huduma" } satisfies Pair,
   title: {
-    en: "The high-performance hub of your digital operations.",
+    en: "The high performance hub of your digital operations.",
     sw: "Kitovu chenye utendaji wa juu cha shughuli zako za kidijitali.",
   } satisfies Pair,
   intro: {
-    en: "Four integrated disciplines, engineered to work as one system rather than four disconnected tools. Explore how each fits your operation.",
-    sw: "Taaluma nne zilizounganishwa, zilizojengwa kufanya kazi kama mfumo mmoja badala ya zana nne tofauti. Angalia jinsi kila moja inavyofaa kwa shughuli zako.",
+    en: "Five integrated disciplines, engineered to work as one system rather than five disconnected tools. Explore how each fits your operation.",
+    sw: "Taaluma tano zilizounganishwa, zilizojengwa kufanya kazi kama mfumo mmoja badala ya zana tano tofauti. Angalia jinsi kila moja inavyofaa kwa shughuli zako.",
   } satisfies Pair,
 };
 
@@ -177,7 +177,7 @@ export const standard = {
     sw: "Mtazamo wetu umejikita katika taaluma ya Uhandisi wa Kibaiolojia (Biomedical Engineering). Katika taaluma ambapo usahihi ni suala la uhai na kifo, mifumo imara zaidi ni ile iliyojengwa bila nafasi ya kukosea.",
   } satisfies Pair,
   para2: {
-    en: "We bring that mission-critical mindset to every project, whether we're architecting a corporate platform or a nationwide logistics tracker.",
+    en: "We bring that mission critical mindset to every project, whether we're architecting a corporate platform or a nationwide logistics tracker.",
     sw: "Tunaleta mtazamo huo wa kazi za lazima kwenye kila mradi, iwe tunajenga mfumo wa kampuni au mfumo wa ufuatiliaji wa usafirishaji wa kitaifa.",
   } satisfies Pair,
   cta: { en: "Read the founder's statement →", sw: "Soma tamko la mwanzilishi →" } satisfies Pair,
@@ -202,7 +202,7 @@ export const leadership = {
 export const why = {
   eyebrow: { en: "Why Partner With Us", sw: "Kwa Nini Ushirikiane Nasi" } satisfies Pair,
   title: {
-    en: "Three reasons clients trust us with mission-critical work.",
+    en: "Three reasons clients trust us with mission critical work.",
     sw: "Sababu tatu wateja wanatuamini na kazi zao muhimu.",
   } satisfies Pair,
   industriesLabel: { en: "Industries We Serve", sw: "Sekta Tunazohudumia" } satisfies Pair,
@@ -302,7 +302,7 @@ export const chat = {
   askAnything: { en: "Ask anything…", sw: "Uliza chochote…" } satisfies Pair,
   chatEnded: { en: "Chat ended, start a new chat", sw: "Mazungumzo yamekwisha, anza mapya" } satisfies Pair,
   disclaimer: {
-    en: "AI-ASSISTED · A SPECIALIST JOINS WHEN NEEDED",
+    en: "AI ASSISTED · A SPECIALIST JOINS WHEN NEEDED",
     sw: "KWA MSAADA WA AI · MTAALAMU ATAJIUNGA INAPOHITAJIKA",
   } satisfies Pair,
   fabLabel: { en: "Ask InnoStarck AI", sw: "Uliza InnoStarck AI" } satisfies Pair,

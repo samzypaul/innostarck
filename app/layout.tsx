@@ -112,11 +112,11 @@ const jsonLd = {
     jobTitle: "Managing Director",
   },
   knowsAbout: [
-    "High-Performance Web Systems",
+    "High Performance Web Systems",
+    "Mobile App Development",
     "Intelligent IoT & Hardware",
     "AI & Workflow Automation",
     "Strategic Data Analytics",
-    "Mobile App Development",
   ],
   knowsLanguage: ["en", "sw"],
 };

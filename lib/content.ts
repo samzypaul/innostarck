@@ -16,13 +16,13 @@ export type Service = {
 export const services: Service[] = [
   {
     code: "SVC.01",
-    title: { en: "High-Performance Web Systems", sw: "Mifumo ya Wavuti yenye Utendaji wa Juu" },
+    title: { en: "High Performance Web Systems", sw: "Mifumo ya Wavuti yenye Utendaji wa Juu" },
     body: {
-      en: "Bespoke architectures built for complex business logic, high concurrency, security, and long-term scale.",
+      en: "Bespoke architectures built for complex business logic, high concurrency, security, and scale over the long term.",
       sw: "Miundo maalum iliyojengwa kwa ajili ya mantiki changamano ya biashara, matumizi ya wingi kwa wakati mmoja, usalama, na ukuaji wa muda mrefu.",
     },
     tags: {
-      en: ["Next.js", "High-concurrency", "Secure by design"],
+      en: ["Next.js", "High concurrency", "Secure by design"],
       sw: ["Next.js", "Matumizi ya wingi", "Usalama kwa muundo"],
     },
     icon: "web",
@@ -46,7 +46,7 @@ export const services: Service[] = [
       en: "The brain for your operations. Automation that removes repetition, eliminates human error, and frees your team to focus on what matters.",
       sw: "Ubongo wa shughuli zako. Uendeshaji wa kiotomatiki unaoondoa urudufishaji, kupunguza makosa ya kibinadamu, na kuipa timu yako nafasi ya kuzingatia yaliyo muhimu.",
     },
-    tags: { en: ["Pipelines", "Predictive", "Zero-error"], sw: ["Mifumo ya kazi", "Utabiri", "Bila makosa"] },
+    tags: { en: ["Pipelines", "Predictive", "Zero error"], sw: ["Mifumo ya kazi", "Utabiri", "Bila makosa"] },
     icon: "ai",
     image: "/images/svc-ai.jpg",
   },
@@ -65,7 +65,7 @@ export const services: Service[] = [
     code: "SVC.05",
     title: { en: "Mobile App Development", sw: "Uundaji wa Programu za Simu" },
     body: {
-      en: "Native apps for iOS and Android, built to hold up under real-world use, from field teams to customer-facing products.",
+      en: "Native apps for iOS and Android, built to hold up under real world use, from field teams to products your customers use directly.",
       sw: "Programu asili za iOS na Android, zilizojengwa kustahimili matumizi halisi, kuanzia timu za uwandani hadi bidhaa zinazowahudumia wateja.",
     },
     tags: {
@@ -90,15 +90,15 @@ export const principles: Principle[] = [
   },
   {
     code: "PR.02",
-    title: { en: "Security-First Logic", sw: "Usalama Kwanza" },
+    title: { en: "Security First Logic", sw: "Usalama Kwanza" },
     body: {
-      en: "Data protected from the ground up with engineering-grade protocols, not afterthoughts.",
+      en: "Data protected from the ground up with engineering grade protocols, not afterthoughts.",
       sw: "Taarifa zinalindwa tangu msingi kwa taratibu za kiwango cha kiuhandisi, si kama wazo la baadaye.",
     },
   },
   {
     code: "PR.03",
-    title: { en: "User-Centric Design", sw: "Muundo Unaomlenga Mtumiaji" },
+    title: { en: "User Centered Design", sw: "Muundo Unaomlenga Mtumiaji" },
     body: {
       en: "Complex capability translated into interfaces that feel effortless for the humans using them.",
       sw: "Uwezo changamano unabadilishwa kuwa miingiliano inayohisi rahisi kwa watu wanaoitumia.",
@@ -132,7 +132,7 @@ export const methodSteps: Step[] = [
     phase: { en: "Verify", sw: "Uhakiki" },
     title: { en: "Quality Assurance", sw: "Uhakiki wa Ubora" },
     body: {
-      en: "Automated and manual testing across the lifecycle guarantees bug-free deployments.",
+      en: "Automated and manual testing across the lifecycle guarantees deployments free of bugs.",
       sw: "Upimaji wa kiotomatiki na wa mikono katika mzunguko mzima huhakikisha utekelezaji usio na hitilafu.",
     },
   },
@@ -160,9 +160,9 @@ export const reasons: Reason[] = [
   },
   {
     icon: "link",
-    title: { en: "Hardware-Software Synergy", sw: "Uwiano wa Vifaa na Programu" },
+    title: { en: "Hardware and Software Synergy", sw: "Uwiano wa Vifaa na Programu" },
     body: {
-      en: "One of few firms that reliably connect physical operations directly to real-time digital dashboards.",
+      en: "One of few firms that reliably connect physical operations directly to real time digital dashboards.",
       sw: "Mojawapo ya makampuni machache yanayounganisha kwa uhakika shughuli halisi moja kwa moja na dashibodi za kidijitali za wakati halisi.",
     },
   },
@@ -203,6 +203,6 @@ export const products: Product[] = [
 ];
 
 export const industries: Pair<string[]> = {
-  en: ["Finance & Fintech", "Healthcare & MedTech", "Retail & E-Commerce", "Logistics & Supply Chain"],
+  en: ["Finance & Fintech", "Healthcare & MedTech", "Retail & Ecommerce", "Logistics & Supply Chain"],
   sw: ["Fedha na Tekfini", "Afya na Tekiafya", "Rejareja na Biashara Mtandao", "Usafirishaji na Ugavi"],
 };

@@ -9,7 +9,7 @@ export const WHATSAPP_CATALOGUE_URL = "https://wa.me/255795600348";
 // quote details live. Share the matching link when a visitor asks about a
 // service or a quote.
 export const QUOTE_LINKS: { service: string; url: string; fee: string }[] = [
-  { service: "High-Performance Web Systems", url: "https://wa.me/p/26603009339373792/255795600348", fee: "TZS 500,000" },
+  { service: "High Performance Web Systems", url: "https://wa.me/p/26603009339373792/255795600348", fee: "TZS 500,000" },
   { service: "Intelligent IoT & Hardware", url: "https://wa.me/p/27650326647960496/255795600348", fee: "TZS 1,000,000" },
   { service: "AI & Workflow Automation", url: "https://wa.me/p/28485363851063302/255795600348", fee: "TZS 1,000,000" },
   { service: "Strategic Data Analytics", url: "https://wa.me/p/27119819027701343/255795600348", fee: "TZS 500,000" },
@@ -22,45 +22,47 @@ export const companyKnowledge = `
 # InnoStarck: Company Knowledge Base
 
 ## Executive Summary
-InnoStarck is an engineering-led technology firm specializing in high-precision digital
-architecture. We bridge the gap between complex engineering principles and scalable digital
+InnoStarck is a technology firm built on engineering discipline, specializing in high precision
+digital architecture. We bridge the gap between complex engineering principles and scalable digital
 solutions. We provide the technical backbone for organizations that require absolute reliability
-across Custom Web Systems, IoT Integration, Predictive Modeling, AI-Driven Automation, and
-Mobile Apps.
+across Custom Web Systems, Mobile App Development, IoT Integration, AI Powered Automation, and
+Predictive Modeling.
 
 Motto: "Precision for Humanity. Innovation for Growth."
 
 ## Core Service Pillars
-1. High-Performance Websites & Web Systems
+1. High Performance Websites & Web Systems
    Bespoke web architectures tailored for complex business logic. Unlike standard web agencies,
-   our websites are engineered for high-concurrency, security, and long-term scalability, from
-   enterprise-grade portals to internal management systems that serve as the central hub of your
-   digital operations.
+   our websites are engineered for high concurrency, security, and scalability over the long term,
+   from enterprise grade portals to internal management systems that serve as the central hub of
+   your digital operations.
 
-2. Intelligent IoT & Integrated Hardware
+2. Mobile App Development
+   Native apps for iOS and Android, built to hold up under real world use, from field operations
+   tools to products your customers use directly.
+
+3. Intelligent IoT & Integrated Hardware
    The "nervous system" of your business. We integrate physical hardware with digital platforms
-   for real-time data collection and remote monitoring, keeping your physical assets always
+   for data collection and remote monitoring in real time, keeping your physical assets always
    connected to your digital intelligence.
 
-3. AI & Workflow Automation
+4. AI & Workflow Automation
    The "brain" for your operations. Intelligent automation that streamlines repetitive tasks,
-   eliminates human error, and transforms manual workflows into high-efficiency digital processes.
+   eliminates human error, and transforms manual workflows into efficient digital processes.
 
-4. Strategic Data Analytics
+5. Strategic Data Analytics
    We turn raw data into a strategic asset. Advanced modeling and predictive analysis give
-   organizations the foresight to make data-backed decisions and identify growth opportunities
+   organizations the foresight to make decisions backed by data and identify growth opportunities
    before they arise.
-
-(We also build Mobile Apps as part of our delivery capability.)
 
 ## The InnoStarck Standard: Engineering Rigor
 Our approach is rooted in rigorous engineering standards. In a field where precision is a matter of
 life and death, the most resilient systems are those built with zero margin for error. We bring this
-"Mission-Critical" mindset to every project, whether architecting a corporate website or a
+"Mission Critical" mindset to every project, whether architecting a corporate website or a
 nationwide logistics tracker. For clients this means:
 - Architectural Resilience: Systems designed to handle growth and pressure.
-- Security-First Logic: Protecting data with engineering-grade protocols.
-- User-Centric Design: Complex technology made intuitive for human use.
+- Security First Logic: Protecting data with engineering grade protocols.
+- User Centered Design: Complex technology made intuitive for human use.
 
 ## Founder's Statement
 "At InnoStarck, we believe that technology should be as resilient as the people it serves. My
@@ -73,33 +75,37 @@ Samuel Paul Mbano, Managing Director
 ## Why Partner With Us
 1. Systemic Thinking: We don't look at a website in isolation; we look at how it integrates with
    your entire business ecosystem.
-2. Hardware-Software Synergy: One of the few firms capable of connecting physical operations to
+2. Hardware and Software Synergy: One of the few firms capable of connecting physical operations to
    digital dashboards.
 3. Local Context, Global Standards: Based in Dar es Salaam, we build solutions robust enough for
    local infrastructure while meeting international performance benchmarks.
 
 ## Industries We Serve
-Finance & Fintech, Healthcare & MedTech, Retail & E-Commerce, Logistics & Supply Chain.
+Finance & Fintech, Healthcare & MedTech, Retail & Ecommerce, Logistics & Supply Chain.
 
 ## Service Fees (indicative starting prices, exact quote is scoped per project)
-- High-Performance Web Systems: from TZS 500,000. Bespoke architectures engineered for complex
-  business logic, high concurrency, robust security, and long-term scalability.
+- High Performance Web Systems: from TZS 500,000. Bespoke architectures engineered for complex
+  business logic, high concurrency, robust security, and scalability over the long term.
 - Intelligent IoT & Hardware: from TZS 1,000,000. The nervous system of your business: we fuse
-  physical hardware with digital platforms for comprehensive, real-time monitoring and control.
+  physical hardware with digital platforms for comprehensive monitoring and control in real time.
 - AI & Workflow Automation: from TZS 1,000,000. The digital brain for your operations: automation
-  that eliminates human error, removes repetitive tasks, and frees your team for high-impact work.
+  that eliminates human error, removes repetitive tasks, and frees your team for high value work.
 - Strategic Data Analytics: from TZS 500,000. Transform raw data into a strategic asset with
   advanced modeling that surfaces actionable insights and predicts growth opportunities before they
   arrive.
+- Mobile App Development: exact quote scoped per project. Native apps for iOS and Android, built to
+  hold up under real world use.
 
 ## Quote & Catalogue Links (for pricing / packages / quotes)
 When a visitor wants a quote, pricing, or package details for a specific service, share the matching
 WhatsApp catalogue link below. Each opens the exact product in our WhatsApp catalogue where they can
 see packages and request an exact quote:
-- High-Performance Web Systems: https://wa.me/p/26603009339373792/255795600348
+- High Performance Web Systems: https://wa.me/p/26603009339373792/255795600348
 - Intelligent IoT & Hardware: https://wa.me/p/27650326647960496/255795600348
 - AI & Workflow Automation: https://wa.me/p/28485363851063302/255795600348
 - Strategic Data Analytics: https://wa.me/p/27119819027701343/255795600348
+Mobile App Development has no catalogue link yet: for a quote, collect their contact details and
+project needs so a specialist can follow up directly.
 For the full catalogue or to reach a human: ${WHATSAPP_CATALOGUE_URL}
 
 ## Contact
@@ -112,7 +118,7 @@ For the full catalogue or to reach a human: ${WHATSAPP_CATALOGUE_URL}
 // The instruction layer that turns the knowledge into a lead-collecting agent.
 export const systemInstruction = `
 You are the InnoStarck AI Assistant, the first line of contact on the InnoStarck website.
-You are precise, warm, and confident, with an engineering-grade attention to detail. Keep replies
+You are precise, warm, and confident, with an engineering grade attention to detail. Keep replies
 concise (2 to 4 sentences) and easy to read on a small chat window.
 
 Use ONLY the knowledge below to describe InnoStarck. If you are asked something specific that is not
@@ -127,10 +133,13 @@ beyond the Service Fees list.
 SHOWING SERVICES (clickable options): When a visitor asks what we offer / what we do / to "see
 services", give a one-line intro and set "options" to exactly these four service names so they can tap
 one, do NOT dump all four descriptions at once:
-["High-Performance Web Systems", "Intelligent IoT & Hardware", "AI & Workflow Automation", "Strategic Data Analytics"].
+["High Performance Web Systems", "Intelligent IoT & Hardware", "AI & Workflow Automation", "Strategic Data Analytics"].
 When the visitor selects or asks about a specific service, give a 2 to 3 sentence description of THAT
 service, state its indicative starting fee, share its matching catalogue link, and ask for their
 phone/WhatsApp number. You may set "options" to the remaining service names so they can explore more.
+We also offer Mobile App Development (see "Core Service Pillars"); mention it if relevant, but it has
+no catalogue link or listed fee yet, so collect their details for a specialist to quote directly
+instead of including it in the tappable "options".
 
 YOUR TWO JOBS:
 1. Answer the visitor's questions about InnoStarck's services, approach, and standards, surface the

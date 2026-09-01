@@ -24,14 +24,14 @@ export default function TermsPage() {
 
         <h3>2. Description of Services</h3>
         <p>
-          Inno Starck provides custom web systems, IoT integration, AI-driven automation, and
+          Inno Starck provides custom web systems, IoT integration, automation powered by AI, and
           predictive data analytics. Our services are tailored for complex business logic and require
           the client to provide accurate operational constraints during the architectural phase.
         </p>
 
         <h3>3. System Resilience and Availability</h3>
         <p>
-          While we architect systems with a &apos;Mission-Critical&apos; mindset for zero margin of
+          While we architect systems with a &apos;Mission Critical&apos; mindset for zero margin of
           error, Inno Starck does not guarantee absolute, uninterrupted uptime due to factors beyond
           our control, including global network outages or hardware degradation outside our immediate
           oversight.

@@ -3,7 +3,7 @@ export const siteConfig = {
   legalName: "InnoStarck",
   tagline: "Precision for Humanity",
   description:
-    "InnoStarck is an engineering-led technology firm based in Dar es Salaam, Tanzania, building high-performance web systems, intelligent IoT, AI workflow automation, and strategic data analytics for organizations across Africa.",
+    "InnoStarck is a technology firm built on engineering discipline, based in Dar es Salaam, Tanzania, building high performance web systems, mobile apps, intelligent IoT, AI workflow automation, and strategic data analytics for organizations across Africa.",
   // Update this to the production domain before deploying.
   url: "https://www.innostarck.com",
   locale: "en_TZ",
@@ -29,7 +29,10 @@ export const siteConfig = {
     "web development company Africa",
     "app development Tanzania",
     "mobile app developers Tanzania",
-    "high-performance web systems",
+    "mobile app development",
+    "mobile app development Tanzania",
+    "iOS and Android app development",
+    "high performance web systems",
     "Next.js development",
     "IoT solutions",
     "IoT company East Africa",

@@ -42,7 +42,7 @@ export default function Image() {
             Precision for Humanity.
           </div>
           <div style={{ display: "flex", color: "rgba(255,255,255,0.72)", fontSize: 30, lineHeight: 1.4 }}>
-            Engineering-grade web, IoT, AI &amp; data systems.
+            Engineering grade web, mobile, IoT, AI &amp; data systems.
           </div>
         </div>
 
