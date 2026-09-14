@@ -34,7 +34,7 @@ export function coerceChatResponse(raw: unknown, fallbackReply: string): ChatApi
     },
     complete: Boolean(r.complete),
     options: Array.isArray(r.options)
-      ? r.options.filter((o): o is string => typeof o === "string").slice(0, 4)
+      ? r.options.filter((o): o is string => typeof o === "string").slice(0, 5)
       : [],
     requestPhone: Boolean(r.requestPhone),
   };
