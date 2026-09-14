@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "./Eyebrow";
 import { ServiceIcon, ReasonIcon } from "./icons";
+import QuoteModal from "./QuoteModal";
 import {
   services,
   principles,
@@ -22,6 +24,7 @@ import {
   leadership as leadershipStrings,
   why as whyStrings,
   cta as ctaStrings,
+  quoteModal as quoteModalStrings,
 } from "@/lib/i18n/strings";
 
 /* ---------- generic page header ---------- */
@@ -51,6 +54,7 @@ export function ServicesSection({ variant = "home" }: { variant?: "home" | "serv
   const eyebrow = variant === "services" ? servicesPageStrings.eyebrow : homeStrings.servicesEyebrow;
   const title = variant === "services" ? servicesPageStrings.title : homeStrings.servicesTitle;
   const intro = variant === "services" ? servicesPageStrings.intro : homeStrings.servicesIntro;
+  const [quoteService, setQuoteService] = useState<string | null>(null);
 
   return (
     <section className="section" aria-labelledby="services-heading">
@@ -88,12 +92,21 @@ export function ServicesSection({ variant = "home" }: { variant?: "home" | "serv
                       </span>
                     ))}
                   </div>
+                  <button
+                    type="button"
+                    className="btn btn--ghost"
+                    style={{ marginTop: 20 }}
+                    onClick={() => setQuoteService(s.title[locale])}
+                  >
+                    {quoteModalStrings.getQuote[locale]}
+                  </button>
                 </div>
               </div>
             </article>
           ))}
         </div>
       </div>
+      <QuoteModal service={quoteService} onClose={() => setQuoteService(null)} />
     </section>
   );
 }

@@ -318,6 +318,44 @@ export const chat = {
   } satisfies Pair,
 };
 
+export const quoteModal = {
+  getQuote: { en: "Get a quote →", sw: "Pata Bei →" } satisfies Pair,
+  title: { en: "Request a quote", sw: "Omba Bei" } satisfies Pair,
+  serviceLabel: { en: "Service", sw: "Huduma" } satisfies Pair,
+  whatsappLabel: { en: "WhatsApp number", sw: "Nambari ya WhatsApp" } satisfies Pair,
+  whatsappPlaceholder: { en: "e.g. +255 712 345 678", sw: "mfano +255 712 345 678" } satisfies Pair,
+  emailLabel: { en: "Email", sw: "Barua Pepe" } satisfies Pair,
+  emailPlaceholder: { en: "you@company.com", sw: "wewe@kampuni.com" } satisfies Pair,
+  descriptionLabel: {
+    en: "Describe what you need (optional)",
+    sw: "Eleza unachohitaji (si lazima)",
+  } satisfies Pair,
+  descriptionPlaceholder: {
+    en: "Tell us a bit about your project or need…",
+    sw: "Tuambie kidogo kuhusu mradi wako au mahitaji yako…",
+  } satisfies Pair,
+  phoneError: {
+    en: "Please enter a valid phone number, 9 to 15 digits, e.g. +255 712 345 678.",
+    sw: "Tafadhali weka nambari sahihi ya simu, tarakimu 9 hadi 15, mfano +255 712 345 678.",
+  } satisfies Pair,
+  emailError: {
+    en: "Please enter a valid email address.",
+    sw: "Tafadhali weka barua pepe sahihi.",
+  } satisfies Pair,
+  sending: { en: "Sending…", sw: "Inatuma…" } satisfies Pair,
+  send: { en: "Request quote →", sw: "Omba Bei →" } satisfies Pair,
+  successTitle: { en: "Request sent ✓", sw: "Ombi Limetumwa ✓" } satisfies Pair,
+  successBody: {
+    en: "Thanks. Our team has your details and will email you a quote shortly.",
+    sw: "Asante. Timu yetu ina maelezo yako na itakutumia bei kwa barua pepe hivi karibuni.",
+  } satisfies Pair,
+  errorMessage: {
+    en: "Sorry, we couldn't send that. Please try again, or message us directly on ",
+    sw: "Samahani, hatukuweza kutuma hilo. Tafadhali jaribu tena, au tuandikie moja kwa moja kwenye ",
+  } satisfies Pair,
+  closeAria: { en: "Close quote request form", sw: "Funga fomu ya kuomba bei" } satisfies Pair,
+};
+
 export const langSwitch = {
   english: { en: "English", sw: "Kiingereza" } satisfies Pair,
   swahili: { en: "Swahili", sw: "Kiswahili" } satisfies Pair,
