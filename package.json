@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "InnoStarck — engineering-led technology firm. Marketing website.",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
