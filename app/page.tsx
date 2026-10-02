@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import { ServicesSection, ProductsSection, WhySection, CtaSection } from "@/components/sections";
+import { Marquee, StatsBand, AboutSplit } from "@/components/modern";
 import { baseOpenGraph } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -21,7 +22,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <Marquee />
+      <AboutSplit />
       <ServicesSection />
+      <StatsBand />
       <ProductsSection />
       <WhySection withRule />
       <CtaSection />

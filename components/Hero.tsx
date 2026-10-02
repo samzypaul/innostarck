@@ -32,6 +32,9 @@ export default function Hero() {
           </div>
         ))}
         <div className="hero__scrim" />
+        <div className="hero__mesh" />
+        <span className="hero__orb hero__orb--a" />
+        <span className="hero__orb hero__orb--b" />
       </div>
 
       <div className="hero__coords" aria-hidden="true">

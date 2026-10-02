@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Logo from "./Logo";
 import LanguageSwitch from "./LanguageSwitch";
+import ThemeToggle from "./ThemeToggle";
 import { mainNav, type NavId } from "@/lib/site";
 import { useLanguage } from "@/lib/i18n/language-provider";
 import { nav } from "@/lib/i18n/strings";
@@ -102,6 +103,7 @@ export default function Header() {
           )}
 
           <LanguageSwitch />
+          <ThemeToggle />
 
           <Link href="/contact" className="btn btn--primary" onClick={() => setMobileOpen(false)}>
             {nav.contactCta[locale]}

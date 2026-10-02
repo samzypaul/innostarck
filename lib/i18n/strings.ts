@@ -360,3 +360,32 @@ export const langSwitch = {
   english: { en: "English", sw: "Kiingereza" } satisfies Pair,
   swahili: { en: "Swahili", sw: "Kiswahili" } satisfies Pair,
 };
+
+export const modern = {
+  marquee: {
+    en: ["Web Systems", "Mobile Apps", "IoT & Hardware", "AI Automation", "Data Analytics", "Built in Dar es Salaam", "Zero margin for error"],
+    sw: ["Mifumo ya Wavuti", "Programu za Simu", "IoT na Vifaa", "Uendeshaji wa AI", "Uchambuzi wa Takwimu", "Imejengwa Dar es Salaam", "Bila nafasi ya kukosea"],
+  } satisfies Pair<string[]>,
+  stats: [
+    { value: 5, suffix: "", label: { en: "Engineering disciplines", sw: "Taaluma za uhandisi" } },
+    { value: 99.9, suffix: "%", label: { en: "Uptime target", sw: "Lengo la muda wa utendaji" } },
+    { value: 2, suffix: "", label: { en: "Live products", sw: "Bidhaa zinazotumika" } },
+    { value: 24, suffix: "/7", label: { en: "Monitoring mindset", sw: "Ufuatiliaji wa kila saa" } },
+  ] as { value: number; suffix: string; label: Pair }[],
+  aboutEyebrow: { en: "Who We Are", sw: "Sisi ni Nani" } satisfies Pair,
+  aboutTitle: {
+    en: "The engineering partner for organizations that cannot afford to fail.",
+    sw: "Mshirika wa uhandisi kwa mashirika yasiyoweza kumudu kushindwa.",
+  } satisfies Pair,
+  aboutBody: {
+    en: "InnoStarck is based in Dar es Salaam, Tanzania. We build the technical backbone for businesses across Africa: web platforms, mobile apps, connected hardware and intelligent automation, engineered to hold up under real-world pressure.",
+    sw: "InnoStarck ipo Dar es Salaam, Tanzania. Tunajenga uti wa mgongo wa kiteknolojia kwa biashara kote Afrika: majukwaa ya wavuti, programu za simu, vifaa vilivyounganishwa na uendeshaji wa kiakili, vilivyojengwa kustahimili shinikizo halisi.",
+  } satisfies Pair,
+  aboutPoints: {
+    en: ["Engineering-led, not agency-led", "Transparent progress at every step", "Built to scale across Africa"],
+    sw: ["Tunaongozwa na uhandisi, si wakala", "Uwazi wa maendeleo kila hatua", "Imejengwa kukua kote Afrika"],
+  } satisfies Pair<string[]>,
+  aboutCta: { en: "Learn more about us", sw: "Jifunze zaidi kuhusu sisi" } satisfies Pair,
+  themeLight: { en: "Switch to light mode", sw: "Badili kwenda mwanga" } satisfies Pair,
+  themeDark: { en: "Switch to dark mode", sw: "Badili kwenda giza" } satisfies Pair,
+};

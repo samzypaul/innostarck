@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" fill="none">
+<defs>
+<linearGradient id="l" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#18cbae"/><stop offset="1" stop-color="#5b6cff"/></linearGradient>
+<radialGradient id="r" cx="50%" cy="50%" r="50%"><stop stop-color="#18cbae" stop-opacity=".35"/><stop offset="1" stop-color="#18cbae" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="800" height="800" rx="40" fill="#0a0e12"/>
+<circle cx="400" cy="400" r="380" fill="url(#r)"/>
+<g stroke="url(#l)" stroke-width="2"><circle cx="400" cy="400" r="90"/><circle cx="400" cy="400" r="170" stroke-opacity=".7"/><circle cx="400" cy="400" r="250" stroke-opacity=".45"/><circle cx="400" cy="400" r="330" stroke-opacity=".25"/></g>
+<circle cx="400" cy="400" r="46" fill="url(#l)"/>
+<g fill="#fff"><circle cx="400" cy="230" r="12" fill="#18cbae"/><circle cx="650" cy="400" r="12" fill="#5b6cff"/><circle cx="230" cy="520" r="10" fill="#ff6a3d"/><circle cx="520" cy="690" r="9" fill="#18cbae"/><circle cx="170" cy="300" r="8" fill="#fff"/></g>
+<g stroke="#fff" stroke-opacity=".25"><path d="M400 230L650 400L520 690L230 520L170 300Z"/></g>
+</svg>
