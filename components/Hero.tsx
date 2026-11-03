@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Eyebrow from "./Eyebrow";
+import { Hero3D } from "./fx";
 import { siteConfig } from "@/lib/site";
 import { useLanguage } from "@/lib/i18n/language-provider";
 import { hero as heroStrings, heroSlides as SLIDES } from "@/lib/i18n/strings";
@@ -25,6 +26,7 @@ export default function Hero() {
 
   return (
     <section className="hero" aria-labelledby="hero-title">
+      <div className="aurora" aria-hidden="true"><i /><i /><i /></div>
       <div className="hero__bg" aria-hidden="true">
         {SLIDES.map((s, i) => (
           <div key={s.image} className="hero__bg-slide" data-active={i === active}>
@@ -54,7 +56,7 @@ export default function Hero() {
 
             <h1 className="h1" id="hero-title">
               <span>
-                Precision for <span className="accent">Humanity.</span>
+                Precision for <span className="accent shine">Humanity.</span>
               </span>
               <span>Engineering grade</span>
               <span>resilience.</span>
@@ -84,6 +86,7 @@ export default function Hero() {
           </div>
 
           <div className="hero__visual">
+            <Hero3D />
             <SignalMonitor />
           </div>
         </div>

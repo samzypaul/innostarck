@@ -4,6 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Eyebrow from "./Eyebrow";
+import { Tilt } from "./fx";
+import { Reveal } from "./modern";
 import { ServiceIcon, ReasonIcon } from "./icons";
 import QuoteModal from "./QuoteModal";
 import {
@@ -40,11 +42,13 @@ export function PageHeader({
   variant?: "accent" | "paper" | "muted";
 }) {
   return (
+    <Reveal>
     <div className="section-head">
       <Eyebrow variant={variant}>{eyebrow}</Eyebrow>
       <h2 className="h2">{title}</h2>
       {intro && <p>{intro}</p>}
     </div>
+    </Reveal>
   );
 }
 
@@ -59,6 +63,7 @@ export function ServicesSection({ variant = "home" }: { variant?: "home" | "serv
   return (
     <section className="section" aria-labelledby="services-heading">
       <div className="container">
+        <Reveal>
         <div className="section-head">
           <Eyebrow>{eyebrow[locale]}</Eyebrow>
           <h2 className="h2" id="services-heading">
@@ -66,9 +71,12 @@ export function ServicesSection({ variant = "home" }: { variant?: "home" | "serv
           </h2>
           <p>{intro[locale]}</p>
         </div>
+        </Reveal>
         <div className="svc-grid">
           {services.map((s, i) => (
-            <article className={i === 0 ? "svc svc--feature" : "svc"} key={s.code}>
+            <Reveal key={s.code} delay={(i % 2) * 100} className={i === 0 ? "span-all" : ""}>
+            <Tilt className="tilt-round" max={5}>
+            <article className={i === 0 ? "svc svc--feature" : "svc"}>
               <div className="svc__image">
                 <Image
                   src={s.image}
@@ -103,6 +111,8 @@ export function ServicesSection({ variant = "home" }: { variant?: "home" | "serv
                 </div>
               </div>
             </article>
+            </Tilt>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -117,15 +127,19 @@ export function ProductsSection() {
   return (
     <section className="section section--tight" aria-labelledby="products-heading">
       <div className="container">
+        <Reveal>
         <div className="section-head">
           <Eyebrow>{productsStrings.eyebrow[locale]}</Eyebrow>
           <h2 className="h2" id="products-heading">
             {productsStrings.title[locale]}
           </h2>
         </div>
+        </Reveal>
         <div className="product-grid">
           {products.map((p) => (
-            <div className="product-card" key={p.code}>
+            <Reveal key={p.code}>
+            <Tilt className="tilt-round" max={4}>
+            <div className="product-card">
               <div className="product-card__mock" aria-hidden="true">
                 <div className="product-card__mock-bar">
                   <span className="product-card__mock-dots">
@@ -213,6 +227,8 @@ export function ProductsSection() {
                 </a>
               </div>
             </div>
+            </Tilt>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -240,12 +256,16 @@ export function StandardSection() {
           </Link>
         </div>
         <div className="principles">
-          {principles.map((p) => (
-            <div className="principle" key={p.code}>
-              <span className="code">{p.code}</span>
-              <h4>{p.title[locale]}</h4>
-              <p>{p.body[locale]}</p>
-            </div>
+          {principles.map((p, i) => (
+            <Reveal key={p.code} delay={i * 100}>
+              <Tilt className="tilt-round">
+                <div className="principle">
+                  <span className="code">{p.code}</span>
+                  <h4>{p.title[locale]}</h4>
+                  <p>{p.body[locale]}</p>
+                </div>
+              </Tilt>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -259,20 +279,26 @@ export function MethodSection() {
   return (
     <section className="section" aria-labelledby="method-heading">
       <div className="container">
+        <Reveal>
         <div className="section-head">
           <Eyebrow>{methodStrings.eyebrow[locale]}</Eyebrow>
           <h2 className="h2" id="method-heading">
             {methodStrings.title[locale]}
           </h2>
         </div>
+        </Reveal>
         <div className="steps">
-          {methodSteps.map((step) => (
-            <div className="step" key={step.index}>
-              <div className="step__badge">{step.index}</div>
-              <div className="step__phase">{step.phase[locale]}</div>
-              <h4>{step.title[locale]}</h4>
-              <p>{step.body[locale]}</p>
-            </div>
+          {methodSteps.map((step, i) => (
+            <Reveal key={step.index} delay={i * 100}>
+              <Tilt className="tilt-round">
+                <div className="step">
+                  <div className="step__badge">{step.index}</div>
+                  <div className="step__phase">{step.phase[locale]}</div>
+                  <h4>{step.title[locale]}</h4>
+                  <p>{step.body[locale]}</p>
+                </div>
+              </Tilt>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -314,19 +340,25 @@ export function WhySection({ withRule = false }: { withRule?: boolean }) {
     <section className="section section--tight" aria-labelledby="why-heading">
       <div className="container">
         {withRule && <div className="dashed-rule" aria-hidden="true" />}
+        <Reveal>
         <div className="section-head">
           <Eyebrow>{whyStrings.eyebrow[locale]}</Eyebrow>
           <h2 className="h2" id="why-heading">
             {whyStrings.title[locale]}
           </h2>
         </div>
+        </Reveal>
         <div className="reasons">
-          {reasons.map((r) => (
-            <div className="reason" key={r.title.en}>
-              <ReasonIcon name={r.icon} />
-              <h4>{r.title[locale]}</h4>
-              <p>{r.body[locale]}</p>
-            </div>
+          {reasons.map((r, i) => (
+            <Reveal key={r.title.en} delay={i * 100}>
+              <Tilt className="tilt-card">
+                <div className="reason tilt-reset">
+                  <ReasonIcon name={r.icon} />
+                  <h4>{r.title[locale]}</h4>
+                  <p>{r.body[locale]}</p>
+                </div>
+              </Tilt>
+            </Reveal>
           ))}
         </div>
 
@@ -346,13 +378,51 @@ export function WhySection({ withRule = false }: { withRule?: boolean }) {
   );
 }
 
+/* ---------- animated wave lines behind the CTA ---------- */
+const WAVES = [
+  "M-100 320C100 220 250 420 500 320S900 200 1500 300",
+  "M-100 360C100 260 250 460 500 360S900 240 1500 340",
+  "M-100 400C100 300 250 500 500 400S900 280 1500 380",
+  "M-100 280C100 180 250 380 500 280S900 160 1500 260",
+  "M-100 240C100 140 250 340 500 240S900 120 1500 220",
+];
+function CtaWaves() {
+  return (
+    <svg className="cta-waves" viewBox="0 0 1400 500" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="ctaw" x1="0" y1="0" x2="1" y2="0">
+          <stop stopColor="#18cbae" />
+          <stop offset="1" stopColor="#5b6cff" />
+        </linearGradient>
+      </defs>
+      {WAVES.map((d, i) => (
+        <g key={i} className="cta-wave" style={{ animationDelay: `${-i * 1.6}s` }}>
+          <path d={d} stroke="url(#ctaw)" strokeWidth="1.5" opacity={0.35 + (i % 3) * 0.12} />
+          <path
+            d={d}
+            className="cta-pulse"
+            stroke="#fff"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            pathLength={1000}
+            style={{ animationDelay: `${-i * 1.9}s`, animationDuration: `${7 + i}s` }}
+          />
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 /* ---------- CTA band ---------- */
 export function CtaSection() {
   const { locale } = useLanguage();
   return (
     <section className="section section--tight">
       <div className="container">
+        <Reveal>
         <div className="cta-band">
+          <CtaWaves />
+          <div className="aurora" aria-hidden="true"><i /><i /><i /></div>
           <Eyebrow>{ctaStrings.eyebrow[locale]}</Eyebrow>
           <h2 className="h2">{ctaStrings.title[locale]}</h2>
           <p style={{ color: "var(--muted)", fontSize: 18, marginTop: 18 }}>{ctaStrings.body[locale]}</p>
@@ -362,6 +432,7 @@ export function CtaSection() {
             </Link>
           </div>
         </div>
+        </Reveal>
       </div>
     </section>
   );

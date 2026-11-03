@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import Eyebrow from "./Eyebrow";
+import { Tilt } from "./fx";
 import { useLanguage } from "@/lib/i18n/language-provider";
 import { modern } from "@/lib/i18n/strings";
 
 /* Fades children in once they scroll into view. */
-export function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+export function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState(false);
   useEffect(() => {
@@ -24,14 +25,16 @@ export function Reveal({ children, delay = 0 }: { children: React.ReactNode; del
           io.disconnect();
         }
       },
-      { threshold: 0.15 },
+      { threshold: 0.12 },
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
   return (
-    <div ref={ref} className="reveal" data-seen={seen} style={{ transitionDelay: `${delay}ms` }}>
-      {children}
+    <div className={`reveal-wrap ${className}`}>
+      <div ref={ref} className="reveal" data-seen={seen} style={{ transitionDelay: `${delay}ms` }}>
+        {children}
+      </div>
     </div>
   );
 }
@@ -94,14 +97,16 @@ export function StatsBand() {
   return (
     <section className="statsband" aria-label="Key figures">
       <div className="container statsband__grid">
-        {modern.stats.map((s) => (
-          <Reveal key={s.label.en}>
-            <div className="statsband__item">
-              <div className="statsband__value">
-                <Counter value={s.value} suffix={s.suffix} />
+        {modern.stats.map((s, i) => (
+          <Reveal key={s.label.en} delay={i * 100}>
+            <Tilt className="tilt-card">
+              <div className="statsband__item">
+                <div className="statsband__value">
+                  <Counter value={s.value} suffix={s.suffix} />
+                </div>
+                <div className="statsband__label">{s.label[locale]}</div>
               </div>
-              <div className="statsband__label">{s.label[locale]}</div>
-            </div>
+            </Tilt>
           </Reveal>
         ))}
       </div>
@@ -115,12 +120,14 @@ export function AboutSplit() {
     <section className="section" aria-labelledby="about-split-heading">
       <div className="container aboutsplit">
         <Reveal>
-          <div className="aboutsplit__art">
-            <Image src="/images/about-orbit.svg" alt="" width={800} height={800} />
-            <span className="aboutsplit__chip aboutsplit__chip--a">Web</span>
-            <span className="aboutsplit__chip aboutsplit__chip--b">Mobile</span>
-            <span className="aboutsplit__chip aboutsplit__chip--c">AI</span>
-          </div>
+          <Tilt className="tilt-round" max={7}>
+            <div className="aboutsplit__art">
+              <Image src="/images/about-orbit.svg" alt="" width={800} height={800} />
+              <span className="aboutsplit__chip aboutsplit__chip--a">Web</span>
+              <span className="aboutsplit__chip aboutsplit__chip--b">Mobile</span>
+              <span className="aboutsplit__chip aboutsplit__chip--c">AI</span>
+            </div>
+          </Tilt>
         </Reveal>
         <Reveal delay={120}>
           <div>
